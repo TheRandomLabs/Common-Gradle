@@ -74,6 +74,7 @@ jacocoTestCoverageVerification {
 check.dependsOn jacocoTestCoverageVerification
 
 ext.configs = [
+	"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/.editorconfig": ".editorconfig",
 	"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/config/checkstyle/checkstyle.xml": "config/checkstyle/checkstyle.xml",
 	"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/config/pmd.xml": "config/pmd.xml",
 	"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/config/spotbugs-exclude.xml": "config/spotbugs-exclude.xml"
