@@ -1,0 +1,6 @@
+apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/no-dependencies/build.gradle"
+
+dependencies {
+	implementation "com.google.guava:guava:28.2-jre"
+	implementation "org.slf4j:slf4j-api:2.0.0-alpha1"
+}

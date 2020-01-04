@@ -1,0 +1,26 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/build.gradle"
+
+task processSource(type: Sync) {
+    from sourceSets.main.java
+    inputs.property "version", version
+    filter(ReplaceTokens, tokens: [VERSION: version])
+    into "$buildDir/src"
+}
+
+compileJava {
+    source = processSource.outputs
+}
+
+jar {
+	manifest {
+		attributes "Main-Class": project.ext.mainClass
+	}
+
+	from {
+		configurations.runtimeClasspath.collect {
+			it.isDirectory() ? it : zipTree(it)
+		}
+	}
+}
