@@ -52,6 +52,8 @@ dependencies {
 	annotationProcessor "com.uber.nullaway:nullaway:0.7.9"
 }
 
+/* TESTING */
+
 test {
 	useJUnitPlatform()
 	finalizedBy jacocoTestReport
@@ -73,6 +75,8 @@ jacocoTestCoverageVerification {
 
 check.dependsOn jacocoTestCoverageVerification
 
+/* DOWNLOAD CONFIGS */
+
 ext.configs = [
 	"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/.editorconfig": ".editorconfig",
 	"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/config/checkstyle/checkstyle.xml": "config/checkstyle/checkstyle.xml",
@@ -89,9 +93,21 @@ gradle.afterProject {
 	}
 }
 
+/* LICENSER */
+
 license {
 	exclude "**/*.xml"
 }
+
+//We make all checkLicense<SourceSet> tasks depend on updateLicenses so that all licenses are
+//automatically updated.
+tasks.matching {
+	it.name.startsWith("checkLicense")
+}.all {
+	it.dependsOn updateLicenses
+}
+
+/* STATIC CODE ANALYSIS */
 
 pmd {
 	ruleSets = []
@@ -120,6 +136,8 @@ tasks.withType(JavaCompile) {
 		}
 	}
 }
+
+/* ARTIFACTS */
 
 task sourcesJar(type: Jar, dependsOn: classes) {
 	archiveClassifier.set("sources")
