@@ -19,6 +19,7 @@ buildscript {
 }
 
 apply plugin: "java-library"
+apply plugin: "idea"
 apply plugin: "jacoco"
 apply plugin: de.undercouch.gradle.tasks.download.DownloadTaskPlugin
 apply plugin: net.minecrell.gradle.licenser.Licenser
@@ -32,15 +33,21 @@ repositories {
 	mavenCentral()
 }
 
-dependencies {
-	testRuntimeOnly "org.apache.logging.log4j:log4j-core:2.13.0"
-	testRuntimeOnly "org.apache.logging.log4j:log4j-slf4j18-impl:2.13.0"
+ext.slf4jVersion = "2.0.0-alpha1"
+ext.log4jVersion = "2.13.0"
+ext.junitVersion = "5.6.0-RC1"
+ext.mockitoVersion = "3.2.4"
 
-	testImplementation "org.junit.jupiter:junit-jupiter-api:5.6.0-RC1"
-	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.6.0-RC1"
+dependencies {
+	testImplementation "org.slf4j:slf4j-api:${ext.slf4jVersion}"
+	testRuntimeOnly "org.apache.logging.log4j:log4j-core:${ext.log4jVersion}"
+	testRuntimeOnly "org.apache.logging.log4j:log4j-slf4j18-impl:${ext.log4jVersion}"
+
+	testImplementation "org.junit.jupiter:junit-jupiter-api:${ext.junitVersion}"
+	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${ext.junitVersion}"
 	testImplementation "org.assertj:assertj-core:3.14.0"
-	testImplementation "org.mockito:mockito-core:3.2.4"
-	testImplementation "org.mockito:mockito-junit-jupiter:3.2.4"
+	testImplementation "org.mockito:mockito-core:${ext.mockitoVersion}"
+	testImplementation "org.mockito:mockito-junit-jupiter:${ext.mockitoVersion}"
 
 	spotbugsPlugins "com.mebigfatguy.sb-contrib:sb-contrib:7.4.7"
 	spotbugsPlugins "com.h3xstream.findsecbugs:findsecbugs-plugin:1.10.1"
@@ -51,6 +58,10 @@ dependencies {
 
 	annotationProcessor "com.uber.nullaway:nullaway:0.7.9"
 }
+
+/* IDEA */
+
+idea.project.vcs = "git"
 
 /* TESTING */
 
@@ -135,6 +146,14 @@ tasks.withType(JavaCompile) {
 			option("NullAway:AnnotatedPackages", project.group)
 		}
 	}
+}
+
+/* JAVADOC */
+
+javadoc {
+	options.links = [
+		"https://docs.oracle.com/javase/8/docs/api/"
+	]
 }
 
 /* ARTIFACTS */
