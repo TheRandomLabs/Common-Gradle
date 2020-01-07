@@ -39,15 +39,15 @@ ext.junitVersion = "5.6.0-RC1"
 ext.mockitoVersion = "3.2.4"
 
 dependencies {
-	testImplementation "org.slf4j:slf4j-api:${ext.slf4jVersion}"
-	testRuntimeOnly "org.apache.logging.log4j:log4j-core:${ext.log4jVersion}"
-	testRuntimeOnly "org.apache.logging.log4j:log4j-slf4j18-impl:${ext.log4jVersion}"
+	testImplementation "org.slf4j:slf4j-api:${project.ext.slf4jVersion}"
+	testRuntimeOnly "org.apache.logging.log4j:log4j-core:${project.ext.log4jVersion}"
+	testRuntimeOnly "org.apache.logging.log4j:log4j-slf4j18-impl:${project.ext.log4jVersion}"
 
-	testImplementation "org.junit.jupiter:junit-jupiter-api:${ext.junitVersion}"
-	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${ext.junitVersion}"
+	testImplementation "org.junit.jupiter:junit-jupiter-api:${project.ext.junitVersion}"
+	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${project.ext.junitVersion}"
 	testImplementation "org.assertj:assertj-core:3.14.0"
-	testImplementation "org.mockito:mockito-core:${ext.mockitoVersion}"
-	testImplementation "org.mockito:mockito-junit-jupiter:${ext.mockitoVersion}"
+	testImplementation "org.mockito:mockito-core:${project.ext.mockitoVersion}"
+	testImplementation "org.mockito:mockito-junit-jupiter:${project.ext.mockitoVersion}"
 
 	spotbugsPlugins "com.mebigfatguy.sb-contrib:sb-contrib:7.4.7"
 	spotbugsPlugins "com.h3xstream.findsecbugs:findsecbugs-plugin:1.10.1"
