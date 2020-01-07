@@ -150,8 +150,9 @@ tasks.withType(JavaCompile) {
 
 /* JAVADOC */
 
-javadoc {
-	options.links = [
+javadoc.options {
+	docTitle = windowTitle = "${rootProject.name} ${project.version}"
+	links = [
 		"https://docs.oracle.com/javase/8/docs/api/",
 		"https://checkerframework.org/api/"
 	]
