@@ -78,7 +78,8 @@ jacocoTestCoverageVerification {
 			limit {
 				counter = "INSTRUCTION"
 				value = "COVEREDRATIO"
-				minimum = project.jacocoMinimumInstructionCoverage
+				minimum = project.hasProperty("jacocoMinimumInstructionCoverage") ?
+						project.jacocoMinimumInstructionCoverage : 0.9
 			}
 
 			excludes = project.hasProperty("jacocoExcludes") ? project.jacocoExcludes : []

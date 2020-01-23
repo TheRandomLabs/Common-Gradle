@@ -6,16 +6,12 @@
 A common Gradle buildscript for my projects.
 
 ```groovy
-ext.jacocoMinimumInstructionCoverage = 0.8
-
 apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/build.gradle"
 ```
 
 Without dependencies:
 
 ```groovy
-ext.jacocoMinimumInstructionCoverage = 0.8
-
 apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/no-dependencies/build.gradle"
 ```
 
@@ -23,7 +19,6 @@ Fat runnable jar:
 
 ```groovy
 ext.mainClass = "${group}.Main"
-ext.jacocoMinimumInstructionCoverage = 0.8
 
 apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/runnable/build.gradle"
 ```
