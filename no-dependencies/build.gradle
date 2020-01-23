@@ -160,6 +160,12 @@ javadoc.options {
 
 /* ARTIFACTS */
 
+jar {
+	manifest {
+		attributes "Automatic-Module-Name": project.group
+	}
+}
+
 task sourcesJar(type: Jar, dependsOn: classes) {
 	archiveClassifier.set("sources")
 	from sourceSets.main.allSource
