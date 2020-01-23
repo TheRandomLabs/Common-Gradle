@@ -80,6 +80,8 @@ jacocoTestCoverageVerification {
 				value = "COVEREDRATIO"
 				minimum = project.ext.jacocoMinimumInstructionCoverage
 			}
+
+			excludes = project.ext.hasProperty("jacocoExcludes") ? project.ext.jacocoExcludes : []
 		}
 	}
 }
