@@ -3,9 +3,9 @@ import org.apache.tools.ant.filters.ReplaceTokens
 apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/build.gradle"
 
 dependencies {
-	implementation "org.slf4j:slf4j-api:${project.ext.slf4jVersion}"
-	implementation "org.apache.logging.log4j:log4j-core:${project.ext.log4jVersion}"
-	implementation "org.apache.logging.log4j:log4j-slf4j18-impl:${project.ext.log4jVersion}"
+	implementation "org.slf4j:slf4j-api:${project.slf4jVersion}"
+	implementation "org.apache.logging.log4j:log4j-core:${project.log4jVersion}"
+	implementation "org.apache.logging.log4j:log4j-slf4j18-impl:${project.log4jVersion}"
 }
 
 task processSource(type: Sync) {
@@ -21,7 +21,7 @@ compileJava {
 
 jar {
 	manifest {
-		attributes "Main-Class": project.ext.mainClass
+		attributes "Main-Class": project.mainClass
 	}
 
 	from {
