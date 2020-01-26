@@ -64,3 +64,17 @@ processResources {
 		exclude "fabric.mod.json"
 	}
 }
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			artifact(remapJar) {
+				builtBy remapJar
+			}
+
+			artifact(sourcesJar) {
+				builtBy remapSourcesJar
+			}
+		}
+	}
+}
