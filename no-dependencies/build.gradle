@@ -33,10 +33,12 @@ repositories {
 	mavenCentral()
 }
 
-ext.slf4jVersion = "2.0.0-alpha1"
-ext.log4jVersion = "2.13.0"
-ext.junitVersion = "5.6.0"
-ext.mockitoVersion = "3.2.4"
+ext {
+	slf4jVersion = "2.0.0-alpha1"
+	log4jVersion = "2.13.0"
+	junitVersion = "5.6.0"
+	mockitoVersion = "3.2.4"
+}
 
 dependencies {
 	testImplementation "org.slf4j:slf4j-api:${project.slf4jVersion}"
@@ -167,6 +169,8 @@ jar {
 	manifest {
 		attributes "Automatic-Module-Name": project.group
 	}
+
+	from "LICENSE"
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -186,7 +190,7 @@ artifacts {
 
 publishing {
 	publications {
-		gpr(MavenPublication) {
+		mavenJava(MavenPublication) {
 			artifact sourcesJar
 			artifact javadocJar
 			from components.java

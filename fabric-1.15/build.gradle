@@ -1,0 +1,70 @@
+ext.loomVersion = "0.2.7-SNAPSHOT"
+
+buildscript {
+	repositories {
+		jcenter()
+
+		maven {
+			name "Fabric"
+			url "https://maven.fabricmc.net/"
+		}
+
+		gradlePluginPortal()
+
+		dependencies {
+			"fabric-loom:fabric-loom:${project.loomVersion}"
+		}
+	}
+}
+
+apply plugin: net.fabricmc.loom.LoomGradlePlugin
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+	mavenCentral()
+
+	maven {
+		url "https://jitpack.io"
+	}
+}
+
+ext {
+	minecraftVersion = "1.15.2"
+	yarnMappings = "1.15.2+build.7"
+	loaderVersion = "0.7.6+build.179"
+
+	fabricVersion = "0.4.29+build.290-1.15"
+
+	nightConfigVersion = "3.6.0"
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraftVersion}"
+	mappings "net.fabricmc:yarn:${project.yarnMappings}:v2"
+	modApi "net.fabricmc:fabric-loader:${project.loaderVersion}"
+
+	modApi "net.fabricmc.fabric-api:fabric-api:${project.fabricVersion}"
+
+	include "com.electronwill.night-config:core:${project.nightConfigVersion}"
+	include "com.electronwill.night-config:toml:${project.nightConfigVersion}"
+
+	include group: "com.github.TheRandomLabs", name: "TRLUtils-Config", version: "master-SNAPSHOT", changing: true
+
+	modApi group: "com.github.TheRandomLabs", name: "TRLUtils-Fabric", version: "master-SNAPSHOT", changing: true
+	include group: "com.github.TheRandomLabs", name: "TRLUtils-Fabric", version: "master-SNAPSHOT", changing: true
+}
+
+processResources {
+	inputs.property "version", project.version
+
+	from(sourceSets.main.resources.srcDirs) {
+		include "fabric.mod.json"
+		expand "version": project.version
+	}
+
+	from(sourceSets.main.resources.srcDirs) {
+		exclude "fabric.mod.json"
+	}
+}
