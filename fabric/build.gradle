@@ -36,14 +36,18 @@ dependencies {
 	modApi "net.fabricmc:fabric-loader:${project.loaderVersion}"
 
 	modApi "net.fabricmc.fabric-api:fabric-api:${project.fabricVersion}"
+}
 
-	include "com.electronwill.night-config:core:${project.nightConfigVersion}"
-	include "com.electronwill.night-config:toml:${project.nightConfigVersion}"
+if (!project.hasProperty("disableTRLUtilsFabric") || !project.disableTRLUtilsFabric) {
+	dependencies {
+		include "com.electronwill.night-config:core:${project.nightConfigVersion}"
+		include "com.electronwill.night-config:toml:${project.nightConfigVersion}"
 
-	include "com.github.TheRandomLabs:TRLUtils-Config:${project.trlutilsConfigVersion}"
+		include "com.github.TheRandomLabs:TRLUtils-Config:${project.trlutilsConfigVersion}"
 
-	modApi "com.github.TheRandomLabs:TRLUtils-Fabric:${project.trlutilsFabricVersion}"
-	include "com.github.TheRandomLabs:TRLUtils-Fabric:${project.trlutilsFabricVersion}"
+		modApi "com.github.TheRandomLabs:TRLUtils-Fabric:${project.trlutilsFabricVersion}"
+		include "com.github.TheRandomLabs:TRLUtils-Fabric:${project.trlutilsFabricVersion}"
+	}
 }
 
 processResources {

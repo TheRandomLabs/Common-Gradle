@@ -6,19 +6,16 @@
 A common Gradle buildscript for my projects.
 
 ```groovy
+ext {
+	disableDefaultCompileDependencies = true //Guava and SLF4J.
+	runnable = true
+	mainClass = "com.test.Main"
+	jacocoMinimumInstructionCoverage = 0.1
+	jacocoExcludes = ["com.test.*"]
+}
+
+group = "com.test"
+version = "1.0.0"
+
 apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/build.gradle"
-```
-
-Without dependencies:
-
-```groovy
-apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/no-dependencies/build.gradle"
-```
-
-Fat runnable jar:
-
-```groovy
-ext.mainClass = "${group}.Main"
-
-apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/runnable/build.gradle"
 ```
