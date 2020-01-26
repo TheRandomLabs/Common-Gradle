@@ -1,5 +1,6 @@
 import com.github.spotbugs.SpotBugsTask
 import net.ltgt.gradle.errorprone.CheckSeverity
+import org.apache.tools.ant.filters.ReplaceTokens
 
 buildscript {
 	repositories {
