@@ -1,0 +1,60 @@
+apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/build.gradle"
+
+buildscript {
+	repositories {
+		jcenter()
+
+		maven {
+			name "Fabric"
+			url "https://maven.fabricmc.net/"
+		}
+
+		gradlePluginPortal()
+
+		dependencies {
+			classpath "fabric-loom:fabric-loom.gradle.plugin:${project.loomVersion}"
+		}
+	}
+}
+
+apply plugin: net.fabricmc.loom.LoomGradlePlugin
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+	mavenCentral()
+
+	maven {
+		url "https://jitpack.io"
+	}
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraftVersion}"
+	mappings "net.fabricmc:yarn:${project.yarnMappings}:v2"
+	modApi "net.fabricmc:fabric-loader:${project.loaderVersion}"
+
+	modApi "net.fabricmc.fabric-api:fabric-api:${project.fabricVersion}"
+
+	include "com.electronwill.night-config:core:${project.nightConfigVersion}"
+	include "com.electronwill.night-config:toml:${project.nightConfigVersion}"
+
+	include "com.github.TheRandomLabs:TRLUtils-Config:${project.trlutilsConfigVersion}"
+
+	modApi "com.github.TheRandomLabs:TRLUtils-Fabric:${project.trlutilsFabricVersion}"
+	include "com.github.TheRandomLabs:TRLUtils-Fabric:${project.trlutilsFabricVersion}"
+}
+
+processResources {
+	inputs.property "version", project.version
+
+	from(sourceSets.main.resources.srcDirs) {
+		include "fabric.mod.json"
+		expand "version": project.version
+	}
+
+	from(sourceSets.main.resources.srcDirs) {
+		exclude "fabric.mod.json"
+	}
+}

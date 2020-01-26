@@ -1,15 +1,15 @@
 ext {
 	loomVersion = "0.2.7-SNAPSHOT"
 
-	minecraftVersion = "1.15.2"
-	yarnMappings = "1.15.2+build.7"
+	minecraftVersion = "1.14.4"
+	yarnMappings = "1.14.4+build.15"
 	loaderVersion = "0.7.6+build.179"
 
-	fabricVersion = "0.4.29+build.290-1.15"
+	fabricVersion = "0.4.1+build.245-1.14"
 
 	nightConfigVersion = "3.6.0"
 	trlutilsConfigVersion = "master-SNAPSHOT"
-	trlutilsFabricVersion = "1.15-SNAPSHOT"
+	trlutilsFabricVersion = "1.14-SNAPSHOT"
 }
 
 apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/fabric/build.gradle"
