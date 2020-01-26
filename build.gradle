@@ -2,6 +2,8 @@ import com.github.spotbugs.SpotBugsTask
 import net.ltgt.gradle.errorprone.CheckSeverity
 import org.apache.tools.ant.filters.ReplaceTokens
 
+def testing = !project.hasProperty("disableTesting") || !project.disableTesting
+
 buildscript {
 	repositories {
 		mavenCentral()
@@ -21,7 +23,6 @@ buildscript {
 
 apply plugin: "java-library"
 apply plugin: "idea"
-apply plugin: "jacoco"
 apply plugin: de.undercouch.gradle.tasks.download.DownloadTaskPlugin
 apply plugin: net.minecrell.gradle.licenser.Licenser
 apply plugin: "checkstyle"
@@ -29,6 +30,10 @@ apply plugin: "pmd"
 apply plugin: com.github.spotbugs.SpotBugsPlugin
 apply plugin: net.ltgt.gradle.errorprone.ErrorPronePlugin
 apply plugin: "maven-publish"
+
+if (testing) {
+	apply plugin: "jacoco"
+}
 
 repositories {
 	mavenCentral()
@@ -55,7 +60,7 @@ dependencies {
 			implementation "org.apache.logging.log4j:log4j-core:${project.log4jVersion}"
 			implementation "org.apache.logging.log4j:log4j-slf4j18-impl:${project.log4jVersion}"
 		}
-	} else {
+	} else if (testing) {
 		//We enable SLF4J in the test configuration regardless.
 		testImplementation "org.slf4j:slf4j-api:${project.slf4jVersion}"
 		testRuntimeOnly "org.apache.logging.log4j:log4j-core:${project.log4jVersion}"
@@ -63,11 +68,13 @@ dependencies {
 	}
 
 	//Testing.
-	testImplementation "org.junit.jupiter:junit-jupiter-api:${project.junitVersion}"
-	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${project.junitVersion}"
-	testImplementation "org.assertj:assertj-core:3.14.0"
-	testImplementation "org.mockito:mockito-core:${project.mockitoVersion}"
-	testImplementation "org.mockito:mockito-junit-jupiter:${project.mockitoVersion}"
+	if (testing) {
+		testImplementation "org.junit.jupiter:junit-jupiter-api:${project.junitVersion}"
+		testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${project.junitVersion}"
+		testImplementation "org.assertj:assertj-core:3.14.0"
+		testImplementation "org.mockito:mockito-core:${project.mockitoVersion}"
+		testImplementation "org.mockito:mockito-junit-jupiter:${project.mockitoVersion}"
+	}
 
 	//Static code analysis.
 	spotbugsPlugins "com.mebigfatguy.sb-contrib:sb-contrib:7.4.7"
@@ -86,29 +93,31 @@ idea.project.vcs = "git"
 
 /* TESTING */
 
-test {
-	useJUnitPlatform()
-	finalizedBy jacocoTestReport
-}
+if (testing) {
+	test {
+		useJUnitPlatform()
+		finalizedBy jacocoTestReport
+	}
 
-jacocoTestCoverageVerification {
-	violationRules {
-		rule {
-			element = "CLASS"
+	jacocoTestCoverageVerification {
+		violationRules {
+			rule {
+				element = "CLASS"
 
-			limit {
-				counter = "INSTRUCTION"
-				value = "COVEREDRATIO"
-				minimum = project.hasProperty("jacocoMinimumInstructionCoverage") ?
-						project.jacocoMinimumInstructionCoverage : 0.9
+				limit {
+					counter = "INSTRUCTION"
+					value = "COVEREDRATIO"
+					minimum = project.hasProperty("jacocoMinimumInstructionCoverage") ?
+							project.jacocoMinimumInstructionCoverage : 0.9
+				}
+
+				excludes = project.hasProperty("jacocoExcludes") ? project.jacocoExcludes : []
 			}
-
-			excludes = project.hasProperty("jacocoExcludes") ? project.jacocoExcludes : []
 		}
 	}
-}
 
-check.dependsOn jacocoTestCoverageVerification
+	check.dependsOn jacocoTestCoverageVerification
+}
 
 /* DOWNLOAD CONFIGS */
 

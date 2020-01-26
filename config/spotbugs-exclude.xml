@@ -48,6 +48,10 @@
 	</Match>
 
 	<Match>
+		<Bug pattern="RFI_SET_ACCESSIBLE"/>
+	</Match>
+
+	<Match>
 		<Class name="~.*Test"/>
 
 		<Not>

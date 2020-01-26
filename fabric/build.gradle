@@ -1,3 +1,5 @@
+ext.testing = false
+
 apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/build.gradle"
 
 buildscript {
