@@ -45,6 +45,7 @@ ext {
 	log4jVersion = "2.13.0"
 	junitVersion = "5.6.0"
 	mockitoVersion = "3.2.4"
+	checkerQualVersion = "2.8.0"
 }
 
 dependencies {
@@ -75,6 +76,9 @@ dependencies {
 		testImplementation "org.mockito:mockito-core:${project.mockitoVersion}"
 		testImplementation "org.mockito:mockito-junit-jupiter:${project.mockitoVersion}"
 	}
+
+	compileOnly "org.checkerframework:checker-qual:${project.checkerQualVersion}"
+	testCompileOnly "org.checkerframework:checker-qual:${project.checkerQualVersion}"
 
 	//Static code analysis.
 	spotbugsPlugins "com.mebigfatguy.sb-contrib:sb-contrib:7.4.7"
