@@ -36,8 +36,8 @@ repositories {
 
 	maven {
 		name "CottonMC"
-        url "http://server.bbkr.space:8081/artifactory/libs-snapshot"
-    }
+		url "http://server.bbkr.space:8081/artifactory/libs-snapshot"
+	}
 }
 
 dependencies {
