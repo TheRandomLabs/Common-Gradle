@@ -1,5 +1,6 @@
 ext {
 	testing = false
+	disableDefaultCompileDependencies = true
 	doNotRegisterMavenPublication = true
 }
 
