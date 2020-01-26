@@ -1,6 +1,5 @@
 import com.github.spotbugs.SpotBugsTask
 import net.ltgt.gradle.errorprone.CheckSeverity
-import org.apache.tools.ant.filters.ReplaceTokens
 
 buildscript {
 	repositories {
@@ -50,7 +49,7 @@ dependencies {
 		implementation "org.slf4j:slf4j-api:${project.slf4jVersion}"
 
 		//If the project is also runnable, then we include Log4j as an SLF4J implementation.
-		if (project.hasProperty("runnable") && project.runnable) {
+		if (project.hasProperty("mainClass")) {
 			implementation "org.slf4j:slf4j-api:${project.slf4jVersion}"
 			implementation "org.apache.logging.log4j:log4j-core:${project.log4jVersion}"
 			implementation "org.apache.logging.log4j:log4j-slf4j18-impl:${project.log4jVersion}"
@@ -191,7 +190,7 @@ jar {
 
 	from "LICENSE"
 
-	if (project.hasProperty("runnable") && project.runnable) {
+	if (project.hasProperty("mainClass")) {
 		manifest {
 			attributes "Main-Class": project.mainClass
 		}

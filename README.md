@@ -8,7 +8,6 @@ A common Gradle buildscript for my projects.
 ```groovy
 ext {
 	disableDefaultCompileDependencies = true //Guava and SLF4J.
-	runnable = true
 	mainClass = "com.test.Main"
 	jacocoMinimumInstructionCoverage = 0.1
 	jacocoExcludes = ["com.test.*"]
