@@ -239,12 +239,14 @@ artifacts {
 	archives javadocJar
 }
 
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			artifact sourcesJar
-			artifact javadocJar
-			from components.java
+if (!project.hasProperty("doNotRegisterMavenPublication") || !project.doNotRegisterMavenPublication) {
+	publishing {
+		publications {
+			mavenJava(MavenPublication) {
+				artifact sourcesJar
+				artifact javadocJar
+				from components.java
+			}
 		}
 	}
 }
