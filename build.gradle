@@ -2,7 +2,15 @@ import com.github.spotbugs.SpotBugsTask
 import net.ltgt.gradle.errorprone.CheckSeverity
 import org.apache.tools.ant.filters.ReplaceTokens
 
-def testing = !project.hasProperty("disableTesting") || !project.disableTesting
+def testing = !project.hasProperty("testing") || project.testing
+def defaultCompileDependencies = !project.hasProperty("defaultCompileDependencies") ||
+		project.disableDefaultCompileDependencies
+def runnable = project.hasProperty("mainClass")
+def jacocoMinimumInstructionCoverage = project.hasProperty("jacocoMinimumInstructionCoverage") ?
+		project.jacocoMinimumInstructionCoverage : 0.9
+def jacocoExcludes = project.hasProperty("jacocoExcludes") ? project.jacocoExcludes : []
+def registerDefaultMavenPublication = !project.hasProperty("registerDefaultMavenPublication") ||
+		project.registerDefaultMavenPublication
 
 buildscript {
 	repositories {
@@ -50,13 +58,12 @@ ext {
 
 dependencies {
 	//The default compile dependencies are Guava and SLF4J.
-	if (!project.hasProperty("disableDefaultCompileDependencies") ||
-			!project.disableDefaultCompileDependencies) {
+	if (defaultCompileDependencies) {
 		implementation "com.google.guava:guava:${project.guavaVersion}"
 		implementation "org.slf4j:slf4j-api:${project.slf4jVersion}"
 
 		//If the project is also runnable, then we include Log4j as an SLF4J implementation.
-		if (project.hasProperty("mainClass")) {
+		if (runnable) {
 			implementation "org.slf4j:slf4j-api:${project.slf4jVersion}"
 			implementation "org.apache.logging.log4j:log4j-core:${project.log4jVersion}"
 			implementation "org.apache.logging.log4j:log4j-slf4j18-impl:${project.log4jVersion}"
@@ -111,11 +118,10 @@ if (testing) {
 				limit {
 					counter = "INSTRUCTION"
 					value = "COVEREDRATIO"
-					minimum = project.hasProperty("jacocoMinimumInstructionCoverage") ?
-							project.jacocoMinimumInstructionCoverage : 0.9
+					minimum = jacocoMinimumInstructionCoverage
 				}
 
-				excludes = project.hasProperty("jacocoExcludes") ? project.jacocoExcludes : []
+				excludes = jacocoExcludes
 			}
 		}
 	}
@@ -204,7 +210,7 @@ jar {
 
 	from "LICENSE"
 
-	if (project.hasProperty("mainClass")) {
+	if (runnable) {
 		manifest {
 			attributes "Main-Class": project.mainClass
 		}
@@ -243,7 +249,7 @@ artifacts {
 	archives javadocJar
 }
 
-if (!project.hasProperty("doNotRegisterMavenPublication") || !project.doNotRegisterMavenPublication) {
+if (registerDefaultMavenPublication) {
 	publishing {
 		publications {
 			mavenJava(MavenPublication) {

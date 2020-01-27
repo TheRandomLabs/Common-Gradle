@@ -9,7 +9,7 @@ ext {
 
 	nightConfigVersion = "3.6.0"
 	trlutilsConfigVersion = "master-SNAPSHOT"
-	trlutilsFabricVersion = "1.14-SNAPSHOT"
+	trlutilsFabricVersion = "1.15-SNAPSHOT"
 }
 
 apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/fabric/build.gradle"

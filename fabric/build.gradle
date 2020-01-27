@@ -1,7 +1,7 @@
 ext {
-	disableTesting = true
-	disableDefaultCompileDependencies = true
-	doNotRegisterMavenPublication = true
+	testing = false
+	defaultCompileDependencies = false
+	registerDefaultMavenPublication = false
 }
 
 apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/build.gradle"
