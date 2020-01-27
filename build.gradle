@@ -4,7 +4,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 def testing = !project.hasProperty("testing") || project.testing
 def defaultCompileDependencies = !project.hasProperty("defaultCompileDependencies") ||
-		project.disableDefaultCompileDependencies
+		project.defaultCompileDependencies
 def runnable = project.hasProperty("mainClass")
 def jacocoMinimumInstructionCoverage = project.hasProperty("jacocoMinimumInstructionCoverage") ?
 		project.jacocoMinimumInstructionCoverage : 0.9
