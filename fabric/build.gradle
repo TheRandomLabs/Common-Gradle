@@ -6,6 +6,8 @@ ext {
 
 apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/build.gradle"
 
+def trlutilsFabric = !project.hasProperty("trlutilsFabric") || project.trlutilsFabric
+
 buildscript {
 	repositories {
 		jcenter()
@@ -47,10 +49,8 @@ dependencies {
 	modApi "net.fabricmc:fabric-loader:${project.loaderVersion}"
 
 	modApi "net.fabricmc.fabric-api:fabric-api:${project.fabricVersion}"
-}
 
-if (!project.hasProperty("disableTRLUtilsFabric") || !project.disableTRLUtilsFabric) {
-	dependencies {
+	if (trlutilsFabric) {
 		include "com.electronwill.night-config:core:${project.nightConfigVersion}"
 		include "com.electronwill.night-config:toml:${project.nightConfigVersion}"
 
