@@ -58,6 +58,8 @@ dependencies {
 		include "com.github.TheRandomLabs:TRLUtils-Config:${project.trlutilsConfigVersion}"
 
 		modApi("com.github.TheRandomLabs:TRLUtils-Fabric:${project.trlutilsFabricVersion}") {
+			//This is so that projects don't have to use the same version of Minecraft as the one
+			//that TRLUtils-Fabric is built against.
 			transitive = false
 		}
 		include "com.github.TheRandomLabs:TRLUtils-Fabric:${project.trlutilsFabricVersion}"
