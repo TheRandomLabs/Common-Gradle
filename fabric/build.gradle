@@ -54,9 +54,12 @@ dependencies {
 		include "com.electronwill.night-config:core:${project.nightConfigVersion}"
 		include "com.electronwill.night-config:toml:${project.nightConfigVersion}"
 
+		modApi "com.github.TheRandomLabs:TRLUtils-Config:${project.trlutilsConfigVersion}"
 		include "com.github.TheRandomLabs:TRLUtils-Config:${project.trlutilsConfigVersion}"
 
-		modApi "com.github.TheRandomLabs:TRLUtils-Fabric:${project.trlutilsFabricVersion}"
+		modApi("com.github.TheRandomLabs:TRLUtils-Fabric:${project.trlutilsFabricVersion}") {
+			transitive = false
+		}
 		include "com.github.TheRandomLabs:TRLUtils-Fabric:${project.trlutilsFabricVersion}"
 	}
 }
