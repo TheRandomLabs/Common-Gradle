@@ -79,7 +79,7 @@ dependencies {
 	if (testing) {
 		testImplementation "org.junit.jupiter:junit-jupiter-api:${project.junitVersion}"
 		testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${project.junitVersion}"
-		testImplementation "org.assertj:assertj-core:3.14.0"
+		testImplementation "org.assertj:assertj-core:3.15.0"
 		testImplementation "org.mockito:mockito-core:${project.mockitoVersion}"
 		testImplementation "org.mockito:mockito-junit-jupiter:${project.mockitoVersion}"
 	}
