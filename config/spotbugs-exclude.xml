@@ -52,6 +52,14 @@
 	</Match>
 
 	<Match>
+		<Bug pattern="NM_FIELD_NAMING_CONVENTION"/>
+	</Match>
+
+	<Match>
+		<Bug pattern="STT_STRING_PARSING_A_FIELD"/>
+	</Match>
+
+	<Match>
 		<Class name="~.*Test"/>
 
 		<Not>
