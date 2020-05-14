@@ -50,7 +50,7 @@ repositories {
 ext {
 	guavaVersion = "29.0-jre"
 	slf4jVersion = "2.0.0-alpha1"
-	log4jVersion = "2.13.2"
+	log4jVersion = "2.13.3"
 	junitVersion = "5.6.2"
 	mockitoVersion = "3.3.3"
 	checkerQualVersion = "3.4.0"
