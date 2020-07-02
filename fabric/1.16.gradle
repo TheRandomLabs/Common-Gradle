@@ -5,7 +5,7 @@ ext {
 	yarnMappings = "1.16.1+build.19"
 	loaderVersion = "0.8.9+build.203"
 
-	fabricVersion = "0.4.1+build.372-1.16"
+	fabricVersion = "0.13.1+build.370-1.16"
 
 	nightConfigVersion = "3.6.0"
 	trlutilsConfigVersion = "master-SNAPSHOT"
