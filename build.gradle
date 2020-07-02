@@ -92,7 +92,7 @@ dependencies {
 	spotbugsPlugins "com.h3xstream.findsecbugs:findsecbugs-plugin:1.10.1"
 	spotbugsPlugins "jp.skypencil.findbugs.slf4j:bug-pattern:1.5.0@jar"
 
-	errorprone "com.google.errorprone:error_prone_core:2.3.4"
+	errorprone "com.google.errorprone:error_prone_core:2.4.0"
 	errorproneJavac "com.google.errorprone:javac:9+181-r4173-1"
 
 	annotationProcessor "com.uber.nullaway:nullaway:0.7.10"
