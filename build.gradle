@@ -24,7 +24,7 @@ buildscript {
 			classpath "de.undercouch:gradle-download-task:4.0.4"
 			classpath "gradle.plugin.net.minecrell:licenser:0.4.1"
 			classpath "com.github.spotbugs:spotbugs-gradle-plugin:3.0.0"
-			classpath "net.ltgt.gradle:gradle-errorprone-plugin:1.1.1"
+			classpath "net.ltgt.gradle:gradle-errorprone-plugin:1.2.1"
 		}
 	}
 }
@@ -48,12 +48,12 @@ repositories {
 }
 
 ext {
-	guavaVersion = "28.2-jre"
+	guavaVersion = "29.0-jre"
 	slf4jVersion = "2.0.0-alpha1"
-	log4jVersion = "2.13.1"
-	junitVersion = "5.6.1"
+	log4jVersion = "2.13.3"
+	junitVersion = "5.6.2"
 	mockitoVersion = "3.3.3"
-	checkerQualVersion = "3.3.0"
+	checkerQualVersion = "3.4.1"
 }
 
 dependencies {
@@ -79,7 +79,7 @@ dependencies {
 
 		testImplementation "org.junit.jupiter:junit-jupiter-api:${project.junitVersion}"
 		testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${project.junitVersion}"
-		testImplementation "org.assertj:assertj-core:3.15.0"
+		testImplementation "org.assertj:assertj-core:3.16.1"
 		testImplementation "org.mockito:mockito-core:${project.mockitoVersion}"
 		testImplementation "org.mockito:mockito-junit-jupiter:${project.mockitoVersion}"
 	}
@@ -95,7 +95,7 @@ dependencies {
 	errorprone "com.google.errorprone:error_prone_core:2.3.4"
 	errorproneJavac "com.google.errorprone:javac:9+181-r4173-1"
 
-	annotationProcessor "com.uber.nullaway:nullaway:0.7.9"
+	annotationProcessor "com.uber.nullaway:nullaway:0.7.10"
 }
 
 /* IDEA */
