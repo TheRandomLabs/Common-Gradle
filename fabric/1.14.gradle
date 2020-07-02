@@ -1,5 +1,5 @@
 ext {
-	loomVersion = "0.2.7-SNAPSHOT"
+	loomVersion = "0.4-SNAPSHOT"
 
 	minecraftVersion = "1.14.4"
 	yarnMappings = "1.14.4+build.18"
