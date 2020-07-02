@@ -2,10 +2,10 @@ ext {
 	loomVersion = "0.2.7-SNAPSHOT"
 
 	minecraftVersion = "1.14.4"
-	yarnMappings = "1.14.4+build.15"
-	loaderVersion = "0.7.6+build.179"
+	yarnMappings = "1.14.4+build.18"
+	loaderVersion = "0.8.9+build.203"
 
-	fabricVersion = "0.4.1+build.245-1.14"
+	fabricVersion = "0.14.0+build.258-1.14"
 
 	nightConfigVersion = "3.6.0"
 	trlutilsConfigVersion = "master-SNAPSHOT"
