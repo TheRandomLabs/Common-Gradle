@@ -35,7 +35,7 @@ apply plugin: de.undercouch.gradle.tasks.download.DownloadTaskPlugin
 apply plugin: net.minecrell.gradle.licenser.Licenser
 apply plugin: "checkstyle"
 apply plugin: "pmd"
-apply plugin: "com.github.spotbugs"
+apply plugin: com.github.spotbugs.snom.SpotBugsPlugin
 apply plugin: net.ltgt.gradle.errorprone.ErrorPronePlugin
 apply plugin: "maven-publish"
 
