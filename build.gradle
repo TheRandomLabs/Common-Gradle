@@ -1,4 +1,4 @@
-import com.github.spotbugs.SpotBugsTask
+import com.github.spotbugs.snom.SpotBugsTask
 import net.ltgt.gradle.errorprone.CheckSeverity
 import org.apache.tools.ant.filters.ReplaceTokens
 
@@ -35,7 +35,7 @@ apply plugin: de.undercouch.gradle.tasks.download.DownloadTaskPlugin
 apply plugin: net.minecrell.gradle.licenser.Licenser
 apply plugin: "checkstyle"
 apply plugin: "pmd"
-apply plugin: com.github.spotbugs.SpotBugsPlugin
+apply plugin: com.github.spotbugs
 apply plugin: net.ltgt.gradle.errorprone.ErrorPronePlugin
 apply plugin: "maven-publish"
 
