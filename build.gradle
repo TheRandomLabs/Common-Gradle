@@ -53,7 +53,7 @@ ext {
 	log4jVersion = "2.13.3"
 	junitVersion = "5.6.2"
 	mockitoVersion = "3.5.9"
-	checkerQualVersion = "3.6.0"
+	checkerQualVersion = "3.6.1"
 }
 
 dependencies {
