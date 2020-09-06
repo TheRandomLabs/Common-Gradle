@@ -64,7 +64,6 @@ dependencies {
 
 		//If the project is also runnable, then we include Log4j as an SLF4J implementation.
 		if (runnable) {
-			implementation "org.slf4j:slf4j-api:${project.slf4jVersion}"
 			implementation "org.apache.logging.log4j:log4j-core:${project.log4jVersion}"
 			implementation "org.apache.logging.log4j:log4j-slf4j18-impl:${project.log4jVersion}"
 		}
