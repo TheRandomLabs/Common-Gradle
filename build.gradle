@@ -51,7 +51,7 @@ ext {
 	guavaVersion = "29.0-jre"
 	slf4jVersion = "2.0.0-alpha1"
 	log4jVersion = "2.13.3"
-	junitVersion = "5.6.2"
+	junitVersion = "5.7.0"
 	mockitoVersion = "3.5.10"
 	checkerQualVersion = "3.6.1"
 }
