@@ -24,7 +24,7 @@ buildscript {
 			classpath "de.undercouch:gradle-download-task:4.1.1"
 			classpath "gradle.plugin.net.minecrell:licenser:0.4.1"
 			classpath "gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.5.1"
-			classpath "net.ltgt.gradle:gradle-errorprone-plugin:1.2.1"
+			classpath "net.ltgt.gradle:gradle-errorprone-plugin:1.3.0"
 		}
 	}
 }
