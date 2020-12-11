@@ -59,11 +59,12 @@
 		<module name="IllegalImport"/>
 		<module name="RedundantImport"/>
 		<module name="UnusedImports"/>
-
 		<module name="CustomImportOrder">
 			<property name="sortImportsInGroupAlphabetically" value="true"/>
 			<property name="customImportOrderRules" value="STATIC###STANDARD_JAVA_PACKAGE###THIRD_PARTY_PACKAGE"/>
 		</module>
+
+		<module name="SuppressWithNearbyCommentFilter"/>
 
 		<module name="OuterTypeFilename"/>
 		<module name="OneTopLevelClass"/>
