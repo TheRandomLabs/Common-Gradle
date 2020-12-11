@@ -165,7 +165,7 @@ pmd {
 }
 
 spotbugs {
-	excludeFilter = resources.text.fromUri("https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/spotbugs-exclude.xml")
+	excludeFilter = resources.text.fromUri("https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/spotbugs-exclude.xml").asFile()
 }
 
 tasks.withType(SpotBugsTask) {
