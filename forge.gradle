@@ -1,3 +1,5 @@
+import net.minecraftforge.gradle.common.task.SignJar
+
 def branch = project.findProperty("commonGradleBranch") ?: "master"
 def useClothConfig = !project.hasProperty("useClothConfig") || project.useClothConfig
 def author = project.findProperty("author") ?: "TheRandomLabs"
@@ -12,7 +14,7 @@ ext {
 
 apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/build.gradle"
 
-/* Apparently, the following has to be in the main build script.
+//Apparently, the following also has to be in the main build script.
 buildscript {
 	repositories {
 		jcenter()
@@ -34,7 +36,6 @@ buildscript {
 		classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
 	}
 }
-*/
 
 apply plugin: "net.minecraftforge.gradle"
 apply plugin: "com.github.johnrengelman.shadow"
@@ -149,7 +150,7 @@ artifacts {
 	archives deobfJar
 }
 
-task signJar(type: net.minecraftforge.gradle.common.task.SignJar, dependsOn: jar) {
+task signJar(type: SignJar, dependsOn: jar) {
 	onlyIf {
 		project.hasProperty("keyStore")
 	}
