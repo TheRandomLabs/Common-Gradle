@@ -1,5 +1,5 @@
 def branch = project.findProperty("commonGradleBranch") ?: "master"
-def useClothConfig = project.hasProperty("useClothConfig") ? project.useClothConfig : true
+def useClothConfig = !project.hasProperty("useClothConfig") || project.useClothConfig
 def author = project.findProperty("author") ?: "TheRandomLabs"
 
 ext {
