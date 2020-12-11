@@ -11,8 +11,8 @@ def runnable = project.hasProperty("mainClass")
 def jacocoMinimumInstructionCoverage = project.hasProperty("jacocoMinimumInstructionCoverage") ?
 		project.jacocoMinimumInstructionCoverage: 0.9
 def jacocoExcludes = project.findProperty("jacocoExcludes") ?: []
-def registerDefaultMavenPublication =
-!project.hasProperty("registerDefaultMavenPublication") || project.registerDefaultMavenPublication
+def registerDefaultMavenPublication = !project.hasProperty("registerDefaultMavenPublication") ||
+		project.registerDefaultMavenPublication
 
 buildscript {
 	repositories {
