@@ -1,5 +1,3 @@
-import net.minecraftforge.gradle.common.task.SignJar
-
 def branch = project.findProperty("commonGradleBranch") ?: "master"
 def useClothConfig = project.hasProperty("useClothConfig") ? project.useClothConfig : true
 def author = project.findProperty("author") ?: "TheRandomLabs"
@@ -151,7 +149,7 @@ artifacts {
 	archives deobfJar
 }
 
-task signJar(type: SignJar, dependsOn: jar) {
+task signJar(type: net.minecraftforge.gradle.common.task.SignJar, dependsOn: jar) {
 	onlyIf {
 		project.hasProperty("keyStore")
 	}
