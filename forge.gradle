@@ -14,7 +14,7 @@ ext {
 
 apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/build.gradle"
 
-//Apparently, this bl ock also has to be in the main build script.
+//Apparently, this block also has to be in the main build script.
 buildscript {
 	repositories {
 		jcenter()
