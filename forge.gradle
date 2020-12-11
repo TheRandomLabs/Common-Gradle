@@ -8,6 +8,7 @@ ext {
 	gradle4 = true
 	testing = false
 	defaultCompileDependencies = false
+	//For some reason, ForgeGradle doesn't like it when this is true.
 	autoUpdateLicenses = false
 	registerDefaultMavenPublication = false
 }
