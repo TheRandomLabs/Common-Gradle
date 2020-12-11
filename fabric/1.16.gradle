@@ -1,0 +1,15 @@
+ext {
+	loomVersion = "0.4-SNAPSHOT"
+
+	minecraftVersion = "1.16.3"
+	yarnMappings = "1.16.3+build.31"
+	loaderVersion = "0.10.1+build.209"
+
+	fabricVersion = "0.23.0+build.410-1.16"
+
+	nightConfigVersion = "3.6.0"
+	trlutilsConfigVersion = "master-SNAPSHOT"
+	trlutilsFabricVersion = "1.16-SNAPSHOT"
+}
+
+apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/fabric/build.gradle"

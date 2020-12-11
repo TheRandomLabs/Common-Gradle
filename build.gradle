@@ -1,0 +1,288 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+def branch = project.findProperty("commonGradleBranch") ?: "master"
+def gradle4 = project.hasProperty("gradle4") ? project.gradle4 : false
+def javaVersion = project.findProperty("javaVersion") ?: JavaVersion.VERSION_1_8
+def testing = project.hasProperty("testing") ? project.testing : true
+def defaultCompileDependencies = project.hasProperty("defaultCompileDependencies") ?
+		project.defaultCompileDependencies : true
+def autoUpdateLicenses = project.hasProperty("autoUpdateLicenses") ?
+		project.autoUpdateLicenses : true
+def runnable = project.hasProperty("mainClass")
+def jacocoMinimumInstructionCoverage = project.hasProperty("jacocoMinimumInstructionCoverage") ?
+		project.jacocoMinimumInstructionCoverage: 0.9
+def jacocoExcludes = project.findProperty("jacocoExcludes") ?: []
+def registerDefaultMavenPublication = project.hasProperty("registerDefaultMavenPublication") ?
+		project.registerDefaultMavenPublication : true
+
+buildscript {
+	repositories {
+		mavenCentral()
+
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
+
+		dependencies {
+			classpath "gradle.plugin.net.minecrell:licenser:0.4.1"
+
+			//I'm not sure why I can't just use gradle4.
+			if (!project.findProperty("gradle4") || !project.gradle4) {
+				classpath "gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.5.1"
+				classpath "net.ltgt.gradle:gradle-errorprone-plugin:1.2.1"
+			}
+		}
+	}
+}
+
+apply plugin: "java-library"
+apply plugin: "idea"
+apply plugin: net.minecrell.gradle.licenser.Licenser
+apply plugin: "checkstyle"
+apply plugin: "pmd"
+apply plugin: "maven-publish"
+
+if (!gradle4) {
+	apply plugin: com.github.spotbugs.snom.SpotBugsPlugin
+	apply plugin: net.ltgt.gradle.errorprone.ErrorPronePlugin
+}
+
+if (testing) {
+	apply plugin: "jacoco"
+}
+
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	guavaVersion = "29.0-jre"
+	slf4jVersion = "2.0.0-alpha1"
+	log4jVersion = "2.14.0"
+	junitVersion = "5.7.0"
+	mockitoVersion = "3.5.13"
+	checkerQualVersion = "3.7.0"
+}
+
+dependencies {
+	//The default compile dependencies are Guava and SLF4J.
+	if (defaultCompileDependencies) {
+		implementation "com.google.guava:guava:${project.guavaVersion}"
+		implementation "org.slf4j:slf4j-api:${project.slf4jVersion}"
+
+		//If the project is also runnable, then we include Log4j as an SLF4J implementation.
+		if (runnable) {
+			implementation "org.apache.logging.log4j:log4j-core:${project.log4jVersion}"
+			implementation "org.apache.logging.log4j:log4j-slf4j18-impl:${project.log4jVersion}"
+		}
+	}
+
+	//Testing.
+	if (testing) {
+		//We enable SLF4J in the test configuration regardless.
+		testImplementation "org.slf4j:slf4j-api:${project.slf4jVersion}"
+		testRuntimeOnly "org.apache.logging.log4j:log4j-core:${project.log4jVersion}"
+		testRuntimeOnly "org.apache.logging.log4j:log4j-slf4j18-impl:${project.log4jVersion}"
+
+		testImplementation "org.junit.jupiter:junit-jupiter-api:${project.junitVersion}"
+		testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${project.junitVersion}"
+		testImplementation "org.assertj:assertj-core:3.17.2"
+		testImplementation "org.mockito:mockito-core:${project.mockitoVersion}"
+		testImplementation "org.mockito:mockito-junit-jupiter:${project.mockitoVersion}"
+	}
+
+	compileOnly "org.checkerframework:checker-qual:${project.checkerQualVersion}"
+	testCompileOnly "org.checkerframework:checker-qual:${project.checkerQualVersion}"
+
+	//Static code analysis.
+	if (!gradle4) {
+		spotbugsPlugins "com.mebigfatguy.sb-contrib:sb-contrib:7.4.7"
+		spotbugsPlugins "com.h3xstream.findsecbugs:findsecbugs-plugin:1.11.0"
+		spotbugsPlugins "jp.skypencil.findbugs.slf4j:bug-pattern:1.5.0@jar"
+
+		errorprone "com.google.errorprone:error_prone_core:2.4.0"
+		errorproneJavac "com.google.errorprone:javac:9+181-r4173-1"
+	}
+
+	annotationProcessor "com.uber.nullaway:nullaway:0.8.0"
+}
+
+/* IDEA */
+
+idea.project.vcs = "git"
+
+/* TESTING */
+
+if (testing) {
+	test {
+		useJUnitPlatform()
+		finalizedBy jacocoTestReport
+	}
+
+	jacocoTestCoverageVerification {
+		violationRules {
+			rule {
+				element = "CLASS"
+
+				limit {
+					counter = "INSTRUCTION"
+					value = "COVEREDRATIO"
+					minimum = jacocoMinimumInstructionCoverage
+				}
+
+				excludes = jacocoExcludes
+			}
+		}
+	}
+
+	check.dependsOn jacocoTestCoverageVerification
+}
+
+/* DOWNLOAD .editorconfig */
+
+gradle.afterProject {
+	def file = new File(".editorconfig")
+	new URL("https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/.editorconfig").
+			withInputStream{ input -> file.withOutputStream{ it << input }}
+}
+
+/* LICENSER */
+
+license {
+	exclude "**/*.(cfg|mcmeta|toml|xml)"
+}
+
+if (autoUpdateLicenses) {
+	//We make all checkLicense<SourceSet> tasks depend on updateLicenses so that all licenses are
+	//automatically updated.
+	tasks.matching {
+		it.name.startsWith("checkLicense")
+	}.all {
+		it.dependsOn updateLicenses
+	}
+}
+
+/* STATIC CODE ANALYSIS */
+
+checkstyle {
+	config resources.text.fromUri(
+			"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/checkstyle.xml"
+	)
+}
+
+pmd {
+	ruleSets = []
+	ruleSetConfig = resources.text.fromUri(
+			"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/pmd.xml"
+	)
+}
+
+if (!gradle4) {
+	spotbugs {
+		excludeFilter = resources.text.fromUri(
+				"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/spotbugs-exclude.xml"
+		).asFile()
+	}
+
+	tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
+		reports {
+			xml.enabled false
+			html.enabled true
+		}
+	}
+}
+
+tasks.withType(JavaCompile) {
+	options.encoding = "UTF-8"
+	options.compilerArgs << "-Xlint:all"
+
+	if (!gradle4 && !name.toLowerCase().contains("test")) {
+		options.errorprone {
+			check("NullAway", net.ltgt.gradle.errorprone.CheckSeverity.ERROR)
+			option("NullAway:AnnotatedPackages", project.group)
+		}
+	}
+}
+
+/* JAVADOC */
+
+javadoc.options {
+	docTitle = windowTitle = "${project.name} ${project.version}"
+	links = [
+		"https://docs.oracle.com/javase/8/docs/api/",
+		"https://checkerframework.org/api/"
+	]
+}
+
+/* ARTIFACTS */
+
+jar {
+	manifest {
+		attributes "Automatic-Module-Name": project.group
+	}
+
+	from "LICENSE"
+
+	if (runnable) {
+		manifest {
+			attributes "Main-Class": project.mainClass
+		}
+
+		from {
+			configurations.runtimeClasspath.collect {
+				it.isDirectory() ? it : zipTree(it)
+			}
+		}
+	}
+}
+
+task processSource(type: Sync) {
+    from sourceSets.main.java
+    inputs.property "version", version
+    filter(ReplaceTokens, tokens: [VERSION: version])
+    into "$buildDir/src"
+}
+
+compileJava {
+    source = processSource.outputs
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+	if (gradle4) {
+		classifier "sources"
+	} else {
+		archiveClassifier.set("sources")
+	}
+
+	from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar) {
+	if (gradle4) {
+		classifier "javadoc"
+	} else {
+		archiveClassifier.set("javadoc")
+	}
+
+	from javadoc
+}
+
+artifacts {
+	archives sourcesJar
+	archives javadocJar
+}
+
+if (registerDefaultMavenPublication) {
+	publishing {
+		publications {
+			mavenJava(MavenPublication) {
+				artifact sourcesJar
+				artifact javadocJar
+				from components.java
+			}
+		}
+	}
+}

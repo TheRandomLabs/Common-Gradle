@@ -1,0 +1,199 @@
+import net.minecraftforge.gradle.common.task.SignJar
+
+def branch = project.findProperty("commonGradleBranch") ?: "master"
+def useClothConfig = project.hasProperty("useClothConfig") ? project.useClothConfig : true
+def author = project.findProperty("author") ?: "TheRandomLabs"
+
+ext {
+	gradle4 = true
+	testing = false
+	defaultCompileDependencies = false
+	autoUpdateLicenses = false
+	registerDefaultMavenPublication = false
+}
+
+apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/build.gradle"
+
+/* Apparently, the following has to be in the main build script.
+buildscript {
+	repositories {
+		jcenter()
+
+		mavenCentral()
+
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
+
+		maven {
+			url "http://files.minecraftforge.net/maven"
+		}
+	}
+
+	dependencies {
+		classpath group: "net.minecraftforge.gradle", name: "ForgeGradle", version: "3.+", changing: true
+		classpath "com.github.jengelman.gradle.plugins:shadow:4.0.1"
+		classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
+	}
+}
+*/
+
+apply plugin: "net.minecraftforge.gradle"
+apply plugin: "com.github.johnrengelman.shadow"
+apply plugin: "com.matthewprenger.cursegradle"
+
+configurations {
+	shadow
+}
+
+repositories {
+	if (useClothConfig) {
+		maven {
+			url "https://dl.bintray.com/shedaniel/autoconfig1u"
+		}
+
+		maven {
+			url "https://dl.bintray.com/shedaniel/cloth-config-2"
+		}
+	}
+}
+
+minecraft {
+	mappings channel: project.mappingsChannel, version: project.mappingsVersion
+	accessTransformer = project.file("src/main/resources/META-INF/accesstransformer.cfg")
+
+	runs {
+		client {
+			workingDirectory project.file("run")
+
+			property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
+			property "forge.logging.console.level", "debug"
+
+			mods {
+				create(project.name) {
+					source sourceSets.main
+				}
+			}
+		}
+
+		server {
+			workingDirectory project.file("run")
+
+			property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
+			property "forge.logging.console.level", "debug"
+
+			mods {
+				create(project.name) {
+					source sourceSets.main
+				}
+			}
+		}
+
+		data {
+			workingDirectory project.file("run")
+
+			property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
+			property "forge.logging.console.level", "debug"
+
+			args "--mod", project.archivesBaseName, "--all", "--output",
+					file("src/generated/resources/"), "--existing", file("src/main/resources/")
+
+			mods {
+				create(project.name) {
+					source sourceSets.main
+				}
+			}
+		}
+	}
+}
+
+ext.autoconfigVersion = "3.0"
+
+dependencies {
+	minecraft("net.minecraftforge:forge:${project.minecraftVersion}-${project.forgeVersion}")
+
+	if (useClothConfig) {
+		compile(fg.deobf("me.shedaniel.cloth:cloth-config-forge:4.1.1"))
+
+		runtimeOnly(fg.deobf("me.shedaniel:autoconfig1u-forge:${project.autoconfigVersion}")) {
+			transitive = false
+		}
+
+		compileOnly("me.shedaniel:autoconfig1u-forge:${project.autoconfigVersion}") {
+			transitive = false
+		}
+
+		shadow("me.shedaniel:autoconfig1u-forge:${project.autoconfigVersion}") {
+			transitive = false
+		}
+	}
+}
+
+if (useClothConfig) {
+	shadowJar {
+		relocate("me.shedaniel.autoconfig1u", "me.shedaniel.rei.shadowed.me.shedaniel.autoconfig1u")
+
+		setConfigurations([project.configurations.getByName("shadow")])
+		classifier(null)
+	}
+}
+
+reobf {
+	shadowJar {}
+}
+
+task deobfJar(type: Jar, dependsOn: jar) {
+	classifier "dev"
+	from "build/source/main"
+}
+
+artifacts {
+	archives deobfJar
+}
+
+task signJar(type: SignJar, dependsOn: jar) {
+	onlyIf {
+		project.hasProperty("keyStore")
+	}
+
+	keyStore = project.findProperty("keyStore")
+	alias = project.findProperty("keyStoreAlias")
+	storePass = project.findProperty("keyStorePass")
+	keyPass = project.findProperty("keyStoreKeyPass")
+	inputFile = jar.archivePath
+	outputFile = jar.archivePath
+}
+
+build.dependsOn signJar
+
+jar {
+	manifest {
+		attributes([
+			"Specification-Title": project.name,
+			"Specification-Vendor": "$author",
+			"Specification-Version": "1",
+			"Implementation-Title": project.name,
+			"Implementation-Version": "${version}",
+			"Implementation-Vendor": "$author",
+			"Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+			"Fingerprint": project.findProperty("signSHA1") ?: ""
+		])
+	}
+}
+
+jar.finalizedBy("reobfJar")
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			artifact(file(
+					"${project.buildDir}/libs/${project.archivesBaseName}-${project.version}.jar"
+			)) {
+				builtBy build
+			}
+			artifact deobfJar
+			artifact sourcesJar
+			artifact javadocJar
+		}
+	}
+}
