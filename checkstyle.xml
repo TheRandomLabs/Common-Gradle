@@ -153,7 +153,7 @@
 		</module>
 
 		<module name="SeparatorWrap">
-			<property name="tokens" value="COMMA,SEMI,DOT,ELLIPSIS,AT,ARRAY_DECLARATOR,METHOD_REF"/>
+			<property name="tokens" value="COMMA,SEMI,DOT,ELLIPSIS,ARRAY_DECLARATOR,METHOD_REF"/>
 		</module>
 
 		<module name="Indentation">
@@ -225,6 +225,7 @@
 
 		<module name="RegexpSinglelineJava">
 			<property name="format" value="^\t* "/>
+			<property name="ignoreComments" value="true"/>
 			<property name="message" value="Indent must use tab characters."/>
 		</module>
 
