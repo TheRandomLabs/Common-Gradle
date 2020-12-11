@@ -2,6 +2,8 @@ import com.github.spotbugs.snom.SpotBugsTask
 import net.ltgt.gradle.errorprone.CheckSeverity
 import org.apache.tools.ant.filters.ReplaceTokens
 
+def branch = project.hasProperty("commonGradleBranch") ? project.commonGradleBranch : "master"
+def javaVersion = project.hasProperty("javaVersion") ? project.javaVersion : 1.8
 def testing = !project.hasProperty("testing") || project.testing
 def defaultCompileDependencies = !project.hasProperty("defaultCompileDependencies") ||
 		project.defaultCompileDependencies
@@ -21,7 +23,6 @@ buildscript {
 		}
 
 		dependencies {
-			classpath "de.undercouch:gradle-download-task:4.1.1"
 			classpath "gradle.plugin.net.minecrell:licenser:0.4.1"
 			classpath "gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.5.1"
 			classpath "net.ltgt.gradle:gradle-errorprone-plugin:1.2.1"
@@ -31,7 +32,6 @@ buildscript {
 
 apply plugin: "java-library"
 apply plugin: "idea"
-apply plugin: de.undercouch.gradle.tasks.download.DownloadTaskPlugin
 apply plugin: net.minecrell.gradle.licenser.Licenser
 apply plugin: "checkstyle"
 apply plugin: "pmd"
@@ -43,8 +43,8 @@ if (testing) {
 	apply plugin: "jacoco"
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
 
 repositories {
 	mavenCentral()
@@ -131,22 +131,12 @@ if (testing) {
 	check.dependsOn jacocoTestCoverageVerification
 }
 
-/* DOWNLOAD CONFIGS */
-
-ext.configs = [
-	"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/.editorconfig": ".editorconfig",
-	"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/config/checkstyle/checkstyle.xml": "config/checkstyle/checkstyle.xml",
-	"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/config/pmd.xml": "config/pmd.xml",
-	"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/config/spotbugs-exclude.xml": "config/spotbugs-exclude.xml"
-]
+/* DOWNLOAD .editorconfig */
 
 gradle.afterProject {
-	for (config in configs) {
-		download {
-			src config.key
-			dest config.value
-		}
-	}
+	def file = new File(".editorconfig")
+	new URL("https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/.editorconfig").
+			withInputStream{ input -> file.withOutputStream{ it << input }}
 }
 
 /* LICENSER */
@@ -165,13 +155,17 @@ tasks.matching {
 
 /* STATIC CODE ANALYSIS */
 
+checkstyle {
+	config resources.text.fromUri("https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/checkstyle.xml")
+}
+
 pmd {
 	ruleSets = []
-	ruleSetConfig = resources.text.fromFile("config/pmd.xml")
+	ruleSetConfig = resources.text.fromUri("https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/pmd.xml")
 }
 
 spotbugs {
-	excludeFilter = file("config/spotbugs-exclude.xml")
+	excludeFilter = file("https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/spotbugs-exclude.xml")
 }
 
 tasks.withType(SpotBugsTask) {

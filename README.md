@@ -7,7 +7,9 @@ A common Gradle buildscript for my projects.
 
 ```groovy
 ext {
-	//testing = false
+	commonGradleBranch = "master"
+	javaVersion = 11
+	testing = true //true by default
 	defaultCompileDependencies = false //Guava and SLF4J.
 	mainClass = "com.test.Main"
 	jacocoMinimumInstructionCoverage = 0.1
@@ -18,5 +20,5 @@ ext {
 group = "com.test"
 version = "1.0.0"
 
-apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/build.gradle"
+apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/${project.commonGradleBranch}/build.gradle"
 ```
