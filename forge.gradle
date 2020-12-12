@@ -39,7 +39,8 @@ buildscript {
 	}
 
 	dependencies {
-		classpath group: "net.minecraftforge.gradle", name: "ForgeGradle", version: "3.+", changing: true
+		classpath group: "net.minecraftforge.gradle", name: "ForgeGradle",
+				version: "3.+", changing: true
 		classpath "com.github.jengelman.gradle.plugins:shadow:4.0.1"
 		classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
 		//If useMixin:
@@ -116,8 +117,8 @@ minecraft {
 			property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
 			property "forge.logging.console.level", "debug"
 
-			args "--mod", project.archivesBaseName, "--all", "--output",
-					file("src/generated/resources/"), "--existing", file("src/main/resources/")
+			args "--mod", archivesBaseName, "--all", "--output", file("src/generated/resources/"),
+					"--existing", file("src/main/resources/")
 
 			mods {
 				create(project.name) {
@@ -195,16 +196,18 @@ build.dependsOn signJar
 
 jar {
 	manifest {
-		attributes([
-			"Specification-Title": project.name,
-			"Specification-Vendor": "$author",
-			"Specification-Version": "1",
-			"Implementation-Title": project.name,
-			"Implementation-Version": "${version}",
-			"Implementation-Vendor": "$author",
-			"Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-			"Fingerprint": project.findProperty("signSHA1") ?: ""
-		])
+		attributes(
+				[
+						"Specification-Title": project.name,
+						"Specification-Vendor": "$author",
+						"Specification-Version": "1",
+						"Implementation-Title": project.name,
+						"Implementation-Version": "${version}",
+						"Implementation-Vendor": "$author",
+						"Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+						"Fingerprint": project.findProperty("signSHA1") ?: ""
+				]
+		)
 
 		if (useMixin) {
 			attributes "MixinConfigs": "${archivesBaseName}.mixins.json"

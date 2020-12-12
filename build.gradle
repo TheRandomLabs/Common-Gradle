@@ -9,7 +9,7 @@ def defaultCompileDependencies =
 def autoUpdateLicenses = !project.hasProperty("autoUpdateLicenses") || project.autoUpdateLicenses
 def runnable = project.hasProperty("mainClass")
 def jacocoMinimumInstructionCoverage = project.hasProperty("jacocoMinimumInstructionCoverage") ?
-		project.jacocoMinimumInstructionCoverage: 0.9
+		project.jacocoMinimumInstructionCoverage : 0.9
 def jacocoExcludes = project.findProperty("jacocoExcludes") ?: []
 def registerDefaultMavenPublication = !project.hasProperty("registerDefaultMavenPublication") ||
 		project.registerDefaultMavenPublication
@@ -143,9 +143,16 @@ if (testing) {
 /* DOWNLOAD .editorconfig */
 
 gradle.afterProject {
+	def url = new URL(
+			"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/.editorconfig"
+	)
 	def file = new File(".editorconfig")
-	new URL("https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/.editorconfig").
-			withInputStream{ input -> file.withOutputStream{ it << input }}
+
+	url.withInputStream { input ->
+		file.withOutputStream {
+			it << input
+		}
+	}
 }
 
 /* LICENSER */
@@ -211,8 +218,8 @@ tasks.withType(JavaCompile) {
 javadoc.options {
 	docTitle = windowTitle = "${project.name} ${project.version}"
 	links = [
-		"https://docs.oracle.com/javase/8/docs/api/",
-		"https://checkerframework.org/api/"
+			"https://docs.oracle.com/javase/8/docs/api/",
+			"https://checkerframework.org/api/"
 	]
 }
 
@@ -239,14 +246,14 @@ jar {
 }
 
 task processSource(type: Sync) {
-    from sourceSets.main.java
-    inputs.property "version", version
-    filter(ReplaceTokens, tokens: [VERSION: version])
-    into "$buildDir/src"
+	from sourceSets.main.java
+	inputs.property "version", version
+	filter(ReplaceTokens, tokens: [VERSION: version])
+	into "$buildDir/src"
 }
 
 compileJava {
-    source = processSource.outputs
+	source = processSource.outputs
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
