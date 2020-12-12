@@ -48,6 +48,7 @@ buildscript {
 	}
 }
 
+apply plugin: "eclipse"
 apply plugin: "net.minecraftforge.gradle"
 apply plugin: "com.github.johnrengelman.shadow"
 apply plugin: "com.matthewprenger.cursegradle"
