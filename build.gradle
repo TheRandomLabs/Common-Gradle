@@ -188,7 +188,7 @@ pmd {
 			"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/pmd.xml"
 	)
 
-	if (!pmd4) {
+	if (!gradle4) {
 		incrementalAnalysis = true
 	}
 }
