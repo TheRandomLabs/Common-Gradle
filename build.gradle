@@ -263,6 +263,8 @@ task processSource(type: Sync) {
 }
 
 compileJava {
+	sourceCompatibility = javaVersion
+	targetCompatibility = javaVersion
 	source = processSource.outputs
 }
 

@@ -78,12 +78,12 @@ repositories {
 }
 
 minecraft {
-	mappings channel: project.mappingsChannel, version: project.mappingsVersion
-	accessTransformer = project.file("src/main/resources/META-INF/accesstransformer.cfg")
+	mappings channel: mappingsChannel, version: mappingsVersion
+	accessTransformer = file("src/main/resources/META-INF/accesstransformer.cfg")
 
 	runs {
 		client {
-			workingDirectory project.file("run")
+			workingDirectory file("run")
 
 			if (useMixin) {
 				arg "-mixin.config=" + archivesBaseName + ".mixins.json"
@@ -100,7 +100,7 @@ minecraft {
 		}
 
 		server {
-			workingDirectory project.file("run")
+			workingDirectory file("run")
 
 			if (useMixin) {
 				arg "-mixin.config=" + archivesBaseName + ".mixins.json"
@@ -117,7 +117,7 @@ minecraft {
 		}
 
 		data {
-			workingDirectory project.file("run")
+			workingDirectory file("run")
 
 			property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
 			property "forge.logging.console.level", "debug"
@@ -176,8 +176,8 @@ reobf {
 }
 
 task deobfJar(type: Jar, dependsOn: jar) {
-	classifier "dev"
-	from "build/source/main"
+	classifier "deobf"
+	from sourceSets.main.output
 }
 
 artifacts {
