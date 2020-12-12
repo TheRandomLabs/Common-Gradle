@@ -163,7 +163,7 @@ if (useMixin) {
 
 if (useClothConfig) {
 	shadowJar {
-		relocate("me.shedaniel.autoconfig1u", "me.shedaniel.rei.shadowed.me.shedaniel.autoconfig1u")
+		relocate("me.shedaniel.autoconfig1u", "${group}.shadowed.me.shedaniel.autoconfig1u")
 
 		setConfigurations([project.configurations.getByName("shadow")])
 		classifier(null)
