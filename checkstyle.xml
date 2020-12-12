@@ -162,14 +162,6 @@
 			<property name="tokens" value="COMMA,SEMI,DOT,ELLIPSIS,ARRAY_DECLARATOR,METHOD_REF"/>
 		</module>
 
-		<module name="Indentation">
-			<property name="basicOffset" value="4"/>
-			<property name="caseIndent" value="0"/>
-			<property name="throwsIndent" value="4"/>
-			<property name="arrayInitIndent" value="4"/>
-			<property name="lineWrappingIndentation" value="8"/>
-		</module>
-
 		<module name="PackageDeclaration"/>
 		<module name="PackageName">
 			<property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
