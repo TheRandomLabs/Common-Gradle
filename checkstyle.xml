@@ -259,7 +259,6 @@
 		<module name="JavadocMethod">
 			<property name="scope" value="private"/>
 			<property name="allowedAnnotations" value=""/>
-			<property name="allowThrowsTagsForSubclasses" value="true"/>
 		</module>
 		<module name="MissingJavadocMethod">
 			<property name="scope" value="protected"/>

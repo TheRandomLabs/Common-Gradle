@@ -97,6 +97,8 @@ dependencies {
 	testCompileOnly "org.checkerframework:checker-qual:${project.checkerQualVersion}"
 
 	//Static code analysis.
+	checkstyle "com.puppycrawl.tools:checkstyle:8.38"
+
 	if (!gradle4) {
 		spotbugsPlugins "com.mebigfatguy.sb-contrib:sb-contrib:7.4.7"
 		spotbugsPlugins "com.h3xstream.findsecbugs:findsecbugs-plugin:1.11.0"
