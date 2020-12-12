@@ -1,6 +1,7 @@
 import net.minecraftforge.gradle.common.task.SignJar
 
 def branch = project.findProperty("commonGradleBranch") ?: "master"
+def useMixin = project.hasProperty("useMixin") && project.useMixin
 def useClothConfig = !project.hasProperty("useClothConfig") || project.useClothConfig
 def author = project.findProperty("author") ?: "TheRandomLabs"
 
@@ -29,18 +30,30 @@ buildscript {
 		maven {
 			url "http://files.minecraftforge.net/maven"
 		}
+
+		/* If useMixin:
+		maven {
+			url "https://dist.creeper.host/Sponge/maven"
+		}
+		*/
 	}
 
 	dependencies {
 		classpath group: "net.minecraftforge.gradle", name: "ForgeGradle", version: "3.+", changing: true
 		classpath "com.github.jengelman.gradle.plugins:shadow:4.0.1"
 		classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
+		//If useMixin:
+		//classpath "org.spongepowered:mixingradle:0.7-SNAPSHOT"
 	}
 }
 
 apply plugin: "net.minecraftforge.gradle"
 apply plugin: "com.github.johnrengelman.shadow"
 apply plugin: "com.matthewprenger.cursegradle"
+
+if (useMixin) {
+	apply plugin: "org.spongepowered.mixin"
+}
 
 configurations {
 	shadow
@@ -66,6 +79,10 @@ minecraft {
 		client {
 			workingDirectory project.file("run")
 
+			if (useMixin) {
+				arg "-mixin.config=" + archivesBaseName + ".mixins.json"
+			}
+
 			property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
 			property "forge.logging.console.level", "debug"
 
@@ -78,6 +95,10 @@ minecraft {
 
 		server {
 			workingDirectory project.file("run")
+
+			if (useMixin) {
+				arg "-mixin.config=" + archivesBaseName + ".mixins.json"
+			}
 
 			property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
 			property "forge.logging.console.level", "debug"
@@ -126,6 +147,12 @@ dependencies {
 		shadow("me.shedaniel:autoconfig1u-forge:${project.autoconfigVersion}") {
 			transitive = false
 		}
+	}
+}
+
+if (useMixin) {
+	mixin {
+		add sourceSets.main, "${archivesBaseName}.refmap.json"
 	}
 }
 
@@ -178,6 +205,10 @@ jar {
 			"Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
 			"Fingerprint": project.findProperty("signSHA1") ?: ""
 		])
+
+		if (useMixin) {
+			attributes "MixinConfigs": "${archivesBaseName}.mixins.json"
+		}
 	}
 }
 
