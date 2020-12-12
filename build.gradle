@@ -160,7 +160,10 @@ gradle.afterProject {
 /* LICENSER */
 
 license {
-	exclude "**/*.(cfg|mcmeta|toml|xml)"
+	exclude "**/*.cfg"
+	exclude "**/*.mcmeta"
+	exclude "**/*.toml"
+	exclude "**/*.xml"
 }
 
 if (autoUpdateLicenses) {
