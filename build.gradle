@@ -182,7 +182,8 @@ checkstyle {
 }
 
 pmd {
-	toolVersion = "6.30.0"
+	toolVersion = "6.29.0"
+	incrementalAnalysis = true
 	ruleSets = []
 	ruleSetConfig = resources.text.fromUri(
 			"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/pmd.xml"
