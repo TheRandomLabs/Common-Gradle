@@ -61,6 +61,10 @@ configurations {
 }
 
 repositories {
+	maven {
+		url "https://maven.tterrag.com/"
+	}
+
 	if (useClothConfig) {
 		maven {
 			url "https://dl.bintray.com/shedaniel/autoconfig1u"
