@@ -213,7 +213,11 @@ jar {
 		])
 
 		if (useMixin) {
-			attributes "MixinConfigs": "${archivesBaseName}.mixins.json"
+			attributes([
+					"TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+					"MixinConfigs": "${archivesBaseName}.mixins.json",
+					"FMLCorePluginContainsFMLMod": "true"
+			])
 		}
 	}
 }
