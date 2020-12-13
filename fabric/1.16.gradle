@@ -1,3 +1,5 @@
+def branch = project.findProperty("commonGradleBranch") ?: "master"
+
 ext {
 	loomVersion = "0.4-SNAPSHOT"
 
@@ -12,4 +14,4 @@ ext {
 	trlutilsFabricVersion = "1.16-SNAPSHOT"
 }
 
-apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/fabric/build.gradle"
+apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/fabric/build.gradle"

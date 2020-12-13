@@ -1,10 +1,12 @@
+def branch = project.findProperty("commonGradleBranch") ?: "master"
+
 ext {
 	testing = false
 	defaultCompileDependencies = false
 	registerDefaultMavenPublication = false
 }
 
-apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/master/build.gradle"
+apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/build.gradle"
 
 def trlutilsFabric = !project.hasProperty("trlutilsFabric") || project.trlutilsFabric
 
