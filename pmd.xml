@@ -94,7 +94,13 @@
 	<rule ref="category/java/errorprone.xml/CloneMethodMustBePublic"/>
 	<rule ref="category/java/errorprone.xml/CloneMethodMustImplementCloneable"/>
 	<rule ref="category/java/errorprone.xml/CloneMethodReturnTypeMustMatchClassName"/>
-	<rule ref="category/java/errorprone.xml/CloseResource"/>
+
+	<rule ref="category/java/errorprone.xml/CloseResource">
+		<properties>
+			<property name="allowedResourceTypes" value="java.io.ByteArrayOutputStream|java.io.ByteArrayInputStream|java.io.StringWriter|java.io.CharArrayWriter|java.util.stream.Stream|java.util.stream.IntStream|java.util.stream.LongStream|java.util.stream.DoubleStream|net.minecraft.client.Minecraft|net.minecraft.client.MinecraftClient|net.minecraft.server.MinecraftServer"/>
+		</properties>
+	</rule>
+
 	<rule ref="category/java/errorprone.xml/CompareObjectsWithEquals"/>
 	<rule ref="category/java/errorprone.xml/DoNotCallGarbageCollectionExplicitly"/>
 	<rule ref="category/java/errorprone.xml/DoNotExtendJavaLangThrowable"/>
