@@ -240,17 +240,9 @@
 
 		<module name="NonEmptyAtclauseDescription"/>
 		<module name="InvalidJavadocPosition"/>
-		<module name="SummaryJavadoc">
-			<property name="forbiddenSummaryFragments"
-					  value="^@return the *|^This method returns |^A [{]@code [a-zA-Z0-9]+[}]( is a )"/>
-		</module>
 		<module name="JavadocStyle"/>
 		<module name="AtclauseOrder">
 			<property name="tagOrder" value="@param, @return, @throws, @deprecated"/>
-		</module>
-		<module name="JavadocMethod">
-			<property name="scope" value="private"/>
-			<property name="allowedAnnotations" value=""/>
 		</module>
 		<module name="MissingJavadocMethod">
 			<property name="scope" value="protected"/>
