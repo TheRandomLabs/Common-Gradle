@@ -247,7 +247,7 @@ javadoc.options {
 		links = ["https://docs.oracle.com/javase/${majorJavaVersion}/docs/api/"]
 	}
 
-	links << "https://checkerframework.org/api/"
+	links.add("https://checkerframework.org/api/")
 }
 
 /* ARTIFACTS */
