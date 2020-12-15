@@ -3,6 +3,8 @@ import org.apache.tools.ant.filters.ReplaceTokens
 def branch = project.findProperty("commonGradleBranch") ?: "master"
 def gradle4 = project.hasProperty("gradle4") && project.gradle4
 def javaVersion = project.findProperty("javaVersion") ?: JavaVersion.VERSION_1_8
+def majorJavaVersion = javaVersion.getMajorVersion()
+def majorJavaVersionInt = majorJavaVersion.toInteger()
 def testing = !project.hasProperty("testing") || project.testing
 def defaultCompileDependencies =
 		!project.hasProperty("defaultCompileDependencies") || project.defaultCompileDependencies
@@ -11,6 +13,11 @@ def runnable = project.hasProperty("mainClass")
 def jacocoMinimumInstructionCoverage = project.hasProperty("jacocoMinimumInstructionCoverage") ?
 		project.jacocoMinimumInstructionCoverage : 0.9
 def jacocoExcludes = project.findProperty("jacocoExcludes") ?: []
+def setAutomaticModuleName = majorJavaVersionInt < 9 ||
+		!project.hasProperty("setAutomaticModuleName") || project.setAutomaticModuleName
+def includeLicense = !project.hasProperty("includeLicense") || project.includeLicense
+def buildSourcesJar = !project.hasProperty("buildSourcesJar") || project.buildSourcesJar
+def buildJavadocJar = !project.hasProperty("buildJavadocJar") || project.buildJavadocJar
 def registerDefaultMavenPublication = !project.hasProperty("registerDefaultMavenPublication") ||
 		project.registerDefaultMavenPublication
 
@@ -180,7 +187,7 @@ if (autoUpdateLicenses) {
 
 checkstyle {
 	config resources.text.fromUri(
-			"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/checkstyle.xml"
+			"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/configs/checkstyle.xml"
 	)
 }
 
@@ -188,7 +195,7 @@ pmd {
 	toolVersion = "6.29.0"
 	ruleSets = []
 	ruleSetConfig = resources.text.fromUri(
-			"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/pmd.xml"
+			"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/configs/pmd.xml"
 	)
 
 	if (!gradle4) {
@@ -199,7 +206,7 @@ pmd {
 if (!gradle4) {
 	spotbugs {
 		excludeFilter = resources.text.fromUri(
-				"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/spotbugs-exclude.xml"
+				"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/configs/spotbugs-exclude.xml"
 		).asFile()
 	}
 
@@ -221,26 +228,40 @@ tasks.withType(JavaCompile) {
 			option("NullAway:AnnotatedPackages", project.group)
 		}
 	}
+
+	if (majorJavaVersionInt > 8 && JavaVersion.current().isJava9Compatible()) {
+		it.options.release = majorJavaVersionInt
+	}
 }
 
 /* JAVADOC */
 
 javadoc.options {
+	source = majorJavaVersion
+	encoding = "UTF-8"
 	docTitle = windowTitle = "${project.name} ${project.version}"
-	links = [
-			"https://docs.oracle.com/javase/8/docs/api/",
-			"https://checkerframework.org/api/"
-	]
+
+	if (majorJavaVersionInt > 10) {
+		links = ["https://docs.oracle.com/en/java/javase/${majorJavaVersion}/"]
+	} else {
+		links = ["https://docs.oracle.com/javase/${majorJavaVersion}/docs/api/"]
+	}
+
+	links << "https://checkerframework.org/api/"
 }
 
 /* ARTIFACTS */
 
 jar {
-	manifest {
-		attributes "Automatic-Module-Name": project.group
+	if (setAutomaticModuleName) {
+		manifest {
+			attributes "Automatic-Module-Name": project.group
+		}
 	}
 
-	from "LICENSE"
+	if (includeLicense) {
+		from "LICENSE"
+	}
 
 	if (runnable) {
 		manifest {
@@ -268,37 +289,50 @@ compileJava {
 	source = processSource.outputs
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-	if (gradle4) {
-		classifier "sources"
-	} else {
-		archiveClassifier.set("sources")
+if (buildSourcesJar) {
+	task sourcesJar(type: Jar, dependsOn: classes) {
+		if (gradle4) {
+			classifier "sources"
+		} else {
+			archiveClassifier.set("sources")
+		}
+
+		from sourceSets.main.allSource
 	}
 
-	from sourceSets.main.allSource
+	artifacts {
+		archives sourcesJar
+	}
 }
 
-task javadocJar(type: Jar) {
-	if (gradle4) {
-		classifier "javadoc"
-	} else {
-		archiveClassifier.set("javadoc")
+if (buildJavadocJar) {
+	task javadocJar(type: Jar) {
+		if (gradle4) {
+			classifier "javadoc"
+		} else {
+			archiveClassifier.set("javadoc")
+		}
+
+		from javadoc
 	}
 
-	from javadoc
-}
-
-artifacts {
-	archives sourcesJar
-	archives javadocJar
+	artifacts {
+		archives javadocJar
+	}
 }
 
 if (registerDefaultMavenPublication) {
 	publishing {
 		publications {
 			mavenJava(MavenPublication) {
-				artifact sourcesJar
-				artifact javadocJar
+				if (buildSourcesJar) {
+					artifact sourcesJar
+				}
+
+				if (buildJavadocJar) {
+					artifact javadocJar
+				}
+
 				from components.java
 			}
 		}

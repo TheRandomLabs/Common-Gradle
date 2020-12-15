@@ -2,7 +2,6 @@ import net.minecraftforge.gradle.common.task.SignJar
 
 def branch = project.findProperty("commonGradleBranch") ?: "master"
 def useMixin = project.hasProperty("useMixin") && project.useMixin
-def useClothConfig = !project.hasProperty("useClothConfig") || project.useClothConfig
 def author = project.findProperty("author") ?: "TheRandomLabs"
 
 ext {
@@ -66,13 +65,15 @@ repositories {
 		url "https://maven.tterrag.com/"
 	}
 
-	if (useClothConfig) {
-		maven {
-			url "https://dl.bintray.com/shedaniel/autoconfig1u"
-		}
-
+	if (project.hasProperty("clothConfigVersion")) {
 		maven {
 			url "https://dl.bintray.com/shedaniel/cloth-config-2"
+		}
+	}
+
+	if (project.hasProperty("autoconfigVersion")) {
+		maven {
+			url "https://dl.bintray.com/shedaniel/autoconfig1u"
 		}
 	}
 }
@@ -137,9 +138,11 @@ minecraft {
 dependencies {
 	minecraft("net.minecraftforge:forge:${project.minecraftVersion}-${project.forgeVersion}")
 
-	if (useClothConfig) {
+	if (project.hasProperty("clothConfigVersion")) {
 		compile(fg.deobf("me.shedaniel.cloth:cloth-config-forge:${project.clothConfigVersion}"))
+	}
 
+	if (project.hasProperty("autoconfigVersion")) {
 		runtimeOnly(fg.deobf("me.shedaniel:autoconfig1u-forge:${project.autoconfigVersion}")) {
 			transitive = false
 		}
@@ -160,7 +163,7 @@ if (useMixin) {
 	}
 }
 
-if (useClothConfig) {
+if (project.hasProperty("autoconfigVersion")) {
 	shadowJar {
 		relocate("me.shedaniel.autoconfig1u", "${project.group}.shadowed.me.shedaniel.autoconfig1u")
 

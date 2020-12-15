@@ -1,0 +1,104 @@
+def branch = project.findProperty("commonGradleBranch") ?: "master"
+
+ext {
+	testing = false
+	defaultCompileDependencies = false
+	includeLicense = false
+	buildSourcesJar = false
+	registerDefaultMavenPublication = false
+}
+
+apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/build.gradle"
+
+buildscript {
+	repositories {
+		jcenter()
+
+		maven {
+			name "Fabric"
+			url "https://maven.fabricmc.net/"
+		}
+
+		gradlePluginPortal()
+
+		dependencies {
+			classpath "fabric-loom:fabric-loom.gradle.plugin:${project.loomVersion}"
+		}
+	}
+}
+
+apply plugin: net.fabricmc.loom.LoomGradlePlugin
+
+repositories {
+	if (project.hasProperty("clothConfigVersion")) {
+		maven {
+			url "https://dl.bintray.com/shedaniel/cloth-config-2"
+		}
+	}
+
+	if (project.hasProperty("autoconfigVersion")) {
+		maven {
+			url "https://dl.bintray.com/shedaniel/autoconfig1u"
+		}
+	}
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraftVersion}"
+	mappings "net.fabricmc:yarn:${project.yarnMappings}:v2"
+	modImplementation "net.fabricmc:fabric-loader:${project.loaderVersion}"
+
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabricAPIVersion}"
+
+	if (project.hasProperty("clothConfigVersion")) {
+		modImplementation("me.shedaniel.cloth:config-2:${project.clothConfigVersion}") {
+			exclude(module: "fabric-api")
+		}
+
+		include "me.shedaniel.cloth:config-2:${project.clothConfigVersion}"
+	}
+
+	if (project.hasProperty("autoconfigVersion")) {
+        modImplementation("me.sargunvohra.mcmods:autoconfig1u:${project.autoconfigVersion}") {
+            exclude(module: "fabric-api")
+        }
+
+		include "me.sargunvohra.mcmods:autoconfig1u:${project.autoconfigVersion}"
+	}
+}
+
+processResources {
+	inputs.property "version", project.version
+
+	filesMatching("fabric.mod.json") {
+		expand "version": project.version
+	}
+}
+
+java {
+	withSourcesJar()
+}
+
+jar {
+	from("LICENSE") {
+		rename {
+			"${it}_${project.archivesBaseName}"
+		}
+	}
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			artifact(remapJar) {
+				builtBy remapJar
+			}
+
+			artifact(sourcesJar) {
+				builtBy remapSourcesJar
+			}
+
+			artifact javadocJar
+		}
+	}
+}

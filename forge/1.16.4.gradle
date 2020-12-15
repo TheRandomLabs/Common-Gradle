@@ -1,9 +1,5 @@
 def branch = project.findProperty("commonGradleBranch") ?: "master"
 
-ext {
-	minecraftVersion = "1.16.4"
-	clothConfigVersion = "4.1.1"
-	autoconfigVersion = "3.0"
-}
+ext.minecraftVersion = "1.16.4"
 
 apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/forge/forge.gradle"
