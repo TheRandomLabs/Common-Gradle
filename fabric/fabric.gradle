@@ -31,7 +31,7 @@ buildscript {
 }
 
 apply plugin: net.fabricmc.loom.LoomGradlePlugin
-apply plugin: "com.matthewprenger.cursegradle"
+apply plugin: com.matthewprenger.cursegradle.CurseGradlePlugin
 apply plugin: "com.modrinth.minotaur"
 
 repositories {
