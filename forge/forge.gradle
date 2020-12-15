@@ -134,13 +134,11 @@ minecraft {
 	}
 }
 
-ext.autoconfigVersion = "3.0"
-
 dependencies {
 	minecraft("net.minecraftforge:forge:${project.minecraftVersion}-${project.forgeVersion}")
 
 	if (useClothConfig) {
-		compile(fg.deobf("me.shedaniel.cloth:cloth-config-forge:4.1.1"))
+		compile(fg.deobf("me.shedaniel.cloth:cloth-config-forge:${project.clothConfigVersion}"))
 
 		runtimeOnly(fg.deobf("me.shedaniel:autoconfig1u-forge:${project.autoconfigVersion}")) {
 			transitive = false
