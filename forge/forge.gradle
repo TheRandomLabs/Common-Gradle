@@ -42,6 +42,7 @@ buildscript {
 				version: "3.+", changing: true
 		classpath "com.github.jengelman.gradle.plugins:shadow:4.0.4"
 		classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
+		classpath "gradle.plugin.com.modrinth.minotaur:Minotaur:1.1.0"
 		//If useMixin:
 		//classpath "org.spongepowered:mixingradle:0.7-SNAPSHOT"
 	}
@@ -51,6 +52,7 @@ apply plugin: "eclipse"
 apply plugin: "net.minecraftforge.gradle"
 apply plugin: "com.github.johnrengelman.shadow"
 apply plugin: "com.matthewprenger.cursegradle"
+apply plugin: "com.modrinth.minotaur"
 
 if (useMixin) {
 	apply plugin: "org.spongepowered.mixin"
