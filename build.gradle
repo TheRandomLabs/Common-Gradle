@@ -27,7 +27,7 @@ buildscript {
 
 			//I'm not sure why I can't just use gradle4.
 			if (!project.findProperty("gradle4") || !project.gradle4) {
-				classpath "gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.5.1"
+				classpath "gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.6.0"
 				classpath "net.ltgt.gradle:gradle-errorprone-plugin:1.3.0"
 			}
 		}
