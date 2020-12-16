@@ -51,6 +51,11 @@ dependencies {
 			include "me.sargunvohra.mcmods:autoconfig1u:${project.autoconfigVersion}"
 		}
 	}
+
+	if (project.hasProperty("autoconfigTOMLVersion")) {
+		modImplementation "com.github.TheRandomLabs:AutoConfig-TOML:${project.autoconfigTOMLVersion}"
+		include "com.github.TheRandomLabs.AutoConfig-TOML:${project.autoconfigTOMLVersion}"
+	}
 }
 
 processResources {

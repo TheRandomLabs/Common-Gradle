@@ -68,6 +68,10 @@
 	</Match>
 
 	<Match>
+		<Bug pattern="EXS_EXCEPTION_SOFTENING_HAS_CHECKED"/>
+	</Match>
+
+	<Match>
 		<Class name="~.*Test"/>
 
 		<Not>
