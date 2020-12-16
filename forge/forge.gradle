@@ -13,6 +13,7 @@ ext {
 	//For some reason, ForgeGradle doesn't like it when this is true.
 	autoUpdateLicenses = false
 	registerDefaultMavenPublication = false
+	autoConfigTOMLClassesDir = new File("build/autoconfig-toml")
 }
 
 apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/build.gradle"
@@ -59,6 +60,7 @@ if (useMixin) {
 }
 
 configurations {
+	nonModDependency
 	shadow
 }
 
@@ -92,6 +94,14 @@ minecraft {
 
 	runs {
 		client {
+			if (project.hasProperty("autoConfigTOMLVersion")) {
+				environment "MOD_CLASSES", [
+						sourceSets.main.output.resourcesDir.absolutePath,
+						sourceSets.main.output.classesDirs.asPath,
+						project.autoConfigTOMLClassesDir.absolutePath
+				].join(File.pathSeparator)
+			}
+
 			workingDirectory file("run")
 
 			if (useMixin) {
@@ -116,6 +126,14 @@ minecraft {
 		}
 
 		server {
+			if (project.hasProperty("autoConfigTOMLVersion")) {
+				environment "MOD_CLASSES", [
+						sourceSets.main.output.resourcesDir.absolutePath,
+						sourceSets.main.output.classesDirs.asPath,
+						project.autoConfigTOMLClassesDir.absolutePath
+				].join(File.pathSeparator)
+			}
+
 			workingDirectory file("run")
 
 			if (useMixin) {
@@ -188,8 +206,22 @@ dependencies {
 
 	if (project.hasProperty("autoConfigTOMLVersion")) {
 		compile "com.github.TheRandomLabs:AutoConfig-TOML:${project.autoConfigTOMLVersion}"
+		nonModDependency "com.github.TheRandomLabs:AutoConfig-TOML:${project.autoConfigTOMLVersion}"
 		shadow "com.github.TheRandomLabs:AutoConfig-TOML:${project.autoConfigTOMLVersion}"
 	}
+}
+
+if (project.hasProperty("autoConfigTOMLVersion")) {
+	task extractAutoConfigTOML(type: Copy) {
+		project.autoConfigTOMLClassesDir.delete()
+		project.autoConfigTOMLClassesDir.mkdirs()
+		from zipTree(project.configurations.nonModDependency.find {
+			it.name.startsWith("AutoConfig-TOML")
+		})
+		into project.autoConfigTOMLClassesDir
+	}
+
+	compileJava.dependsOn(extractAutoConfigTOML)
 }
 
 if (useMixin) {
