@@ -14,7 +14,7 @@ apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$bran
 
 if (testMod) {
 	sourceSets {
-		test {
+		testmod {
 			compileClasspath += main.compileClasspath
 			runtimeClasspath += main.runtimeClasspath
 		}
@@ -72,7 +72,9 @@ dependencies {
 	}
 
 	if (testMod) {
-		testImplementation project(":")
+		afterEvaluate {
+			testmodImplementation(sourceSets.main.output)
+		}
 	}
 }
 
@@ -93,12 +95,6 @@ jar {
 		rename {
 			"${it}_${project.archivesBaseName}"
 		}
-	}
-}
-
-if (testMod) {
-	runClient {
-		classpath(sourceSets.test.runtimeClasspath)
 	}
 }
 
