@@ -212,6 +212,7 @@ dependencies {
 }
 
 if (project.hasProperty("autoConfigTOMLVersion")) {
+	//See: https://github.com/MinecraftForge/ForgeGradle/issues/583
 	task extractAutoConfigTOML(type: Copy) {
 		project.autoConfigTOMLClassesDir.delete()
 		project.autoConfigTOMLClassesDir.mkdirs()
