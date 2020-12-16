@@ -3,7 +3,7 @@ import net.minecraftforge.gradle.common.task.SignJar
 def branch = project.findProperty("commonGradleBranch") ?: "master"
 def useMixin = project.hasProperty("useMixin") && project.useMixin
 def testMod = project.findProperty("testMod")
-def shadowAutoConfig = !project.findProperty("shadowAutoConfig") || project.shadowAutoConfig
+def shadowAutoConfig = !project.hasProperty("shadowAutoConfig") || project.shadowAutoConfig
 def author = project.findProperty("author") ?: "TheRandomLabs"
 
 ext {
