@@ -98,6 +98,16 @@ jar {
 	}
 }
 
+if (testMod) {
+	runClient {
+		classpath(sourceSets.testmod.runtimeClasspath)
+	}
+
+	runServer {
+		classpath(sourceSets.testmod.runtimeClasspath)
+	}
+}
+
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
