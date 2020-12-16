@@ -72,6 +72,14 @@
 	</Match>
 
 	<Match>
+		<Bug pattern="MRC_METHOD_RETURNS_CONSTANT"/>
+	</Match>
+
+	<Match>
+		<Bug pattern="UP_UNUSED_PARAMETER"/>
+	</Match>
+
+	<Match>
 		<Class name="~.*Test"/>
 
 		<Not>
