@@ -34,6 +34,12 @@ repositories {
 		}
 	}
 
+	if (project.hasProperty("autoConfigTOMLVersion")) {
+		maven {
+			url "https://jitpack.io"
+		}
+	}
+
 	if (project.hasProperty("cottonClientCommandsVersion")) {
 		maven {
 			name "CottonMC"

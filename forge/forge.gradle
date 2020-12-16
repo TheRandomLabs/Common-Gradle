@@ -86,6 +86,12 @@ repositories {
 			url "https://dl.bintray.com/shedaniel/autoconfig1u"
 		}
 	}
+
+	if (project.hasProperty("autoConfigTOMLVersion")) {
+		maven {
+			url "https://jitpack.io"
+		}
+	}
 }
 
 minecraft {
