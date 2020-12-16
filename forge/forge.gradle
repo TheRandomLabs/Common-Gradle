@@ -2,6 +2,7 @@ import net.minecraftforge.gradle.common.task.SignJar
 
 def branch = project.findProperty("commonGradleBranch") ?: "master"
 def useMixin = project.hasProperty("useMixin") && project.useMixin
+def testMod = project.findProperty("testMod")
 def author = project.findProperty("author") ?: "TheRandomLabs"
 
 ext {
@@ -71,7 +72,7 @@ repositories {
 		}
 	}
 
-	if (project.hasProperty("autoconfigVersion")) {
+	if (project.hasProperty("autoConfigVersion")) {
 		maven {
 			url "https://dl.bintray.com/shedaniel/autoconfig1u"
 		}
@@ -94,8 +95,15 @@ minecraft {
 			property "forge.logging.console.level", "debug"
 
 			mods {
-				create(project.name) {
-					source sourceSets.main
+				if (testMod) {
+					testmod {
+						source sourceSets.test
+						source sourceSets.main
+					}
+				} else {
+					create(project.name) {
+						source sourceSets.main
+					}
 				}
 			}
 		}
@@ -111,8 +119,15 @@ minecraft {
 			property "forge.logging.console.level", "debug"
 
 			mods {
-				create(project.name) {
-					source sourceSets.main
+				if (testMod) {
+					testmod {
+						source sourceSets.test
+						source sourceSets.main
+					}
+				} else {
+					create(project.name) {
+						source sourceSets.main
+					}
 				}
 			}
 		}
@@ -142,18 +157,23 @@ dependencies {
 		compile(fg.deobf("me.shedaniel.cloth:cloth-config-forge:${project.clothConfigVersion}"))
 	}
 
-	if (project.hasProperty("autoconfigVersion")) {
-		runtimeOnly(fg.deobf("me.shedaniel:autoconfig1u-forge:${project.autoconfigVersion}")) {
+	if (project.hasProperty("autoConfigVersion")) {
+		runtimeOnly(fg.deobf("me.shedaniel:autoconfig1u-forge:${project.autoConfigVersion}")) {
 			transitive = false
 		}
 
-		compileOnly("me.shedaniel:autoconfig1u-forge:${project.autoconfigVersion}") {
+		compileOnly("me.shedaniel:autoconfig1u-forge:${project.autoConfigVersion}") {
 			transitive = false
 		}
 
-		shadow("me.shedaniel:autoconfig1u-forge:${project.autoconfigVersion}") {
+		shadow("me.shedaniel:autoconfig1u-forge:${project.autoConfigVersion}") {
 			transitive = false
 		}
+	}
+
+	if (project.hasProperty("autoConfigTOMLVersion")) {
+		compile "com.github.TheRandomLabs:AutoConfig-TOML:${project.autoConfigTOMLVersion}"
+		shadow "com.github.TheRandomLabs:AutoConfig-TOML:${project.autoConfigTOMLVersion}"
 	}
 }
 
@@ -163,9 +183,18 @@ if (useMixin) {
 	}
 }
 
-if (project.hasProperty("autoconfigVersion")) {
+if (project.hasProperty("autoConfigVersion")) {
 	shadowJar {
 		relocate("me.shedaniel.autoconfig1u", "${project.group}.shadowed.me.shedaniel.autoconfig1u")
+
+		setConfigurations([project.configurations.getByName("shadow")])
+		classifier(null)
+	}
+}
+
+if (project.hasProperty("autoConfigTOMLVersion")) {
+	shadowJar {
+		relocate("com.therandomlabs.autoconfigtoml", "${project.group}.shadowed.com.therandomlabs.autoconfigtoml")
 
 		setConfigurations([project.configurations.getByName("shadow")])
 		classifier(null)

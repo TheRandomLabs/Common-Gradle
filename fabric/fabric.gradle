@@ -28,7 +28,7 @@ repositories {
 		}
 	}
 
-	if (project.hasProperty("autoconfigVersion")) {
+	if (project.hasProperty("autoConfigVersion")) {
 		maven {
 			url "https://dl.bintray.com/shedaniel/autoconfig1u"
 		}
@@ -63,19 +63,19 @@ dependencies {
 		}
 	}
 
-	if (project.hasProperty("autoconfigVersion")) {
-		modImplementation("me.sargunvohra.mcmods:autoconfig1u:${project.autoconfigVersion}") {
+	if (project.hasProperty("autoConfigVersion")) {
+		modImplementation("me.sargunvohra.mcmods:autoconfig1u:${project.autoConfigVersion}") {
 			exclude(module: "fabric-api")
 		}
 
 		if (includeClothConfig) {
-			include "me.sargunvohra.mcmods:autoconfig1u:${project.autoconfigVersion}"
+			include "me.sargunvohra.mcmods:autoconfig1u:${project.autoConfigVersion}"
 		}
 	}
 
-	if (project.hasProperty("autoconfigTOMLVersion")) {
-		modImplementation "com.github.TheRandomLabs:AutoConfig-TOML:${project.autoconfigTOMLVersion}"
-		include "com.github.TheRandomLabs.AutoConfig-TOML:${project.autoconfigTOMLVersion}"
+	if (project.hasProperty("autoConfigTOMLVersion")) {
+		modImplementation "com.github.TheRandomLabs:AutoConfig-TOML:${project.autoConfigTOMLVersion}"
+		include "com.github.TheRandomLabs.AutoConfig-TOML:${project.autoConfigTOMLVersion}"
 	}
 
 	if (project.hasProperty("cottonClientCommandsVersion")) {
