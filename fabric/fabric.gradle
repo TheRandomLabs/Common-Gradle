@@ -1,5 +1,6 @@
 def branch = project.findProperty("commonGradleBranch") ?: "master"
 def includeClothConfig = !project.hasProperty("includeClothConfig") || project.includeClothConfig
+def testMod = project.findProperty("testMod")
 
 ext {
 	testing = false
@@ -10,6 +11,15 @@ ext {
 }
 
 apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/build.gradle"
+
+if (testMod) {
+	sourceSets {
+		test {
+			compileClasspath += main.compileClasspath
+			runtimeClasspath += main.runtimeClasspath
+		}
+	}
+}
 
 repositories {
 	if (project.hasProperty("clothConfigVersion")) {
@@ -55,6 +65,10 @@ dependencies {
 	if (project.hasProperty("autoconfigTOMLVersion")) {
 		modImplementation "com.github.TheRandomLabs:AutoConfig-TOML:${project.autoconfigTOMLVersion}"
 		include "com.github.TheRandomLabs.AutoConfig-TOML:${project.autoconfigTOMLVersion}"
+	}
+
+	if (testMod) {
+		testImplementation project(":")
 	}
 }
 
