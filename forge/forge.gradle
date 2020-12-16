@@ -201,7 +201,8 @@ if (useMixin) {
 if (project.hasProperty("autoConfigVersion")) {
 	shadowJar {
 		relocate(
-				"me.shedaniel.autoconfig1u", "${project.group}.shadowed.me.shedaniel.autoconfig1u"
+				"me.shedaniel.autoconfig1u",
+				"${project.group}.shadowed.me.shedaniel.autoconfig1u"
 		)
 
 		setConfigurations([project.configurations.getByName("shadow")])
