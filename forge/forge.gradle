@@ -172,6 +172,12 @@ dependencies {
 			transitive = false
 		}
 
+		if (testMod) {
+			testCompileOnly("me.shedaniel:autoconfig1u-forge:${project.autoConfigVersion}") {
+				transitive = false
+			}
+		}
+
 		shadow("me.shedaniel:autoconfig1u-forge:${project.autoConfigVersion}") {
 			transitive = false
 		}
