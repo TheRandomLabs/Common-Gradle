@@ -200,7 +200,9 @@ if (useMixin) {
 
 if (project.hasProperty("autoConfigVersion")) {
 	shadowJar {
-		relocate("me.shedaniel.autoconfig1u", "${project.group}.shadowed.me.shedaniel.autoconfig1u")
+		relocate(
+				"me.shedaniel.autoconfig1u", "${project.group}.shadowed.me.shedaniel.autoconfig1u"
+		)
 
 		setConfigurations([project.configurations.getByName("shadow")])
 		classifier(null)
@@ -209,7 +211,10 @@ if (project.hasProperty("autoConfigVersion")) {
 
 if (project.hasProperty("autoConfigTOMLVersion")) {
 	shadowJar {
-		relocate("com.therandomlabs.autoconfigtoml", "${project.group}.shadowed.com.therandomlabs.autoconfigtoml")
+		relocate(
+				"com.therandomlabs.autoconfigtoml",
+				"${project.group}.shadowed.com.therandomlabs.autoconfigtoml"
+		)
 
 		setConfigurations([project.configurations.getByName("shadow")])
 		classifier(null)
