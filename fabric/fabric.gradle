@@ -33,6 +33,13 @@ repositories {
 			url "https://dl.bintray.com/shedaniel/autoconfig1u"
 		}
 	}
+
+	if (project.hasProperty("cottonClientCommandsVersion")) {
+		maven {
+			name "CottonMC"
+			url "https://server.bkkr.space/artifactory/libs-release"
+		}
+	}
 }
 
 dependencies {
@@ -69,6 +76,10 @@ dependencies {
 	if (project.hasProperty("autoconfigTOMLVersion")) {
 		modImplementation "com.github.TheRandomLabs:AutoConfig-TOML:${project.autoconfigTOMLVersion}"
 		include "com.github.TheRandomLabs.AutoConfig-TOML:${project.autoconfigTOMLVersion}"
+	}
+
+	if (project.hasProperty("cottonClientCommandsVersion")) {
+		modImplementation "io.github.cottonmc:cotton-client-commands:${project.cottonClientCommandsVersion}"
 	}
 
 	if (testMod) {
