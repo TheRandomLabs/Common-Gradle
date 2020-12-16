@@ -53,9 +53,9 @@ dependencies {
 	}
 
 	if (project.hasProperty("autoconfigVersion")) {
-        modImplementation("me.sargunvohra.mcmods:autoconfig1u:${project.autoconfigVersion}") {
-            exclude(module: "fabric-api")
-        }
+		modImplementation("me.sargunvohra.mcmods:autoconfig1u:${project.autoconfigVersion}") {
+			exclude(module: "fabric-api")
+		}
 
 		if (includeClothConfig) {
 			include "me.sargunvohra.mcmods:autoconfig1u:${project.autoconfigVersion}"
@@ -89,6 +89,12 @@ jar {
 		rename {
 			"${it}_${project.archivesBaseName}"
 		}
+	}
+}
+
+if (testMod) {
+	runClient {
+		classpath(sourceSets.test.runtimeClasspath)
 	}
 }
 
