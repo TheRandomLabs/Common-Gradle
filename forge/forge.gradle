@@ -3,6 +3,7 @@ import net.minecraftforge.gradle.common.task.SignJar
 def branch = project.findProperty("commonGradleBranch") ?: "master"
 def useMixin = project.hasProperty("useMixin") && project.useMixin
 def testMod = project.findProperty("testMod")
+def shadowAutoConfig = !project.findProperty("shadowAutoConfig") || project.shadowAutoConfig
 def author = project.findProperty("author") ?: "TheRandomLabs"
 
 ext {
@@ -178,8 +179,10 @@ dependencies {
 			}
 		}
 
-		shadow("me.shedaniel:autoconfig1u-forge:${project.autoConfigVersion}") {
-			transitive = false
+		if (shadowAutoConfig) {
+			shadow("me.shedaniel:autoconfig1u-forge:${project.autoConfigVersion}") {
+				transitive = false
+			}
 		}
 	}
 
@@ -195,7 +198,7 @@ if (useMixin) {
 	}
 }
 
-if (project.hasProperty("autoConfigVersion")) {
+if (project.hasProperty("autoConfigVersion") && shadowAutoConfig) {
 	shadowJar {
 		relocate(
 				"me.shedaniel.autoconfig1u",
