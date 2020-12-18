@@ -4,9 +4,9 @@ jobs:
   gradle:
     strategy:
       matrix:
-        gradle: [4.9, 4.10.2, 6.7.1]
-        java: [8-jdk, 11-jdk, 15-jdk]
-        exclude:
+        gradle: [4.9, 4.10.2, 6.7]
+        java: [jdk8, jdk11, jdk15]
+        exclude: # Dont run older gradle versions on newer java
           - java: jdk15
             gradle: 4.9
           - java: jdk15
@@ -20,9 +20,6 @@ jobs:
       image: gradle:${{ matrix.gradle }}-${{ matrix.java }}
       options: --user root
     steps:
-      - uses: actions/checkout@v2
-      - run: gradle build publishToMavenLocal --parallel --stacktrace
-      - uses: actions/upload-artifact@v2
-        with:
-          name: Artifacts
-          path: build/libs/
+      - uses: actions/checkout@v1
+      - uses: gradle/wrapper-validation-action@v1
+      - run: gradle build check test --stacktrace
