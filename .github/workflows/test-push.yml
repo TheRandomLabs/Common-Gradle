@@ -1,7 +1,7 @@
-name: Build
+name: Run Tests
 on: [push, pull_request]
 jobs:
-  build:
+  gradle:
     strategy:
       matrix:
         gradle: [4.9, 4.10.2, 6.7.1]
