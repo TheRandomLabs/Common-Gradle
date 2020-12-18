@@ -130,6 +130,10 @@ if (testing) {
 		finalizedBy jacocoTestReport
 	}
 
+	jacoco {
+		toolVersion = "0.8.6"
+	}
+
 	jacocoTestCoverageVerification {
 		violationRules {
 			rule {
