@@ -1,7 +1,8 @@
 import org.apache.tools.ant.filters.ReplaceTokens
+import org.gradle.util.GradleVersion
 
 def branch = project.findProperty("commonGradleBranch") ?: "master"
-def gradle4 = project.hasProperty("gradle4") && project.gradle4
+def gradle4 = GradleVersion.current() < GradleVersion.version("5.0")
 def javaVersion = project.findProperty("javaVersion") ?: JavaVersion.VERSION_1_8
 def majorJavaVersion = javaVersion.getMajorVersion()
 def majorJavaVersionInt = majorJavaVersion.toInteger()
@@ -32,7 +33,7 @@ buildscript {
 			classpath "gradle.plugin.net.minecrell:licenser:0.4.1"
 
 			//I'm not sure why I can't just use gradle4.
-			if (!project.findProperty("gradle4") || !project.gradle4) {
+			if (GradleVersion.current() >= GradleVersion.version("5.0")) {
 				classpath "com.diffplug.spotless:spotless-plugin-gradle:5.8.2"
 				classpath "gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.6.0"
 				classpath "net.ltgt.gradle:gradle-errorprone-plugin:1.3.0"

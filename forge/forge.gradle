@@ -7,7 +7,6 @@ def shadowAutoConfig = !project.hasProperty("shadowAutoConfig") || project.shado
 def author = project.findProperty("author") ?: "TheRandomLabs"
 
 ext {
-	gradle4 = true
 	testing = false
 	defaultCompileDependencies = false
 	//For some reason, ForgeGradle doesn't like it when this is true.

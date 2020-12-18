@@ -8,7 +8,6 @@ A common Gradle buildscript for my projects.
 ```groovy
 ext {
 	commonGradleBranch = "master"
-	gradle4 = true
 	javaVersion = 11
 	testing = true //true by default
 	defaultCompileDependencies = false //Guava and SLF4J.
