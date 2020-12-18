@@ -1,7 +1,7 @@
 # Common-Gradle
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-![Build](https://github.com/TheRandomLabs/Common-Gradle/workflows/Run%20Tests/badge.svg?branch=master)
+![Build](https://github.com/TheRandomLabs/Common-Gradle/workflows/Build/badge.svg?branch=master)
 [![Dependabot](https://badgen.net/dependabot/TheRandomLabs/Common-Gradle/?icon=dependabot)](https://dependabot.com/)
 
 A common Gradle buildscript for my projects.
