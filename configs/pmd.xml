@@ -97,7 +97,7 @@
 
 	<rule ref="category/java/errorprone.xml/CloseResource">
 		<properties>
-			<property name="allowedResourceTypes" value="java.io.ByteArrayOutputStream|java.io.ByteArrayInputStream|java.io.StringWriter|java.io.CharArrayWriter|java.util.stream.Stream|java.util.stream.IntStream|java.util.stream.LongStream|java.util.stream.DoubleStream|net.minecraft.client.Minecraft|net.minecraft.client.MinecraftClient|net.minecraft.server.MinecraftServer"/>
+			<property name="allowedResourceTypes" value="java.io.ByteArrayOutputStream|java.io.ByteArrayInputStream|java.io.StringWriter|java.io.CharArrayWriter|java.util.stream.Stream|java.util.stream.IntStream|java.util.stream.LongStream|java.util.stream.DoubleStream|net.minecraft.client.Minecraft|net.minecraft.client.MinecraftClient|net.minecraft.server.MinecraftServer|net.minecraft.world.World"/>
 		</properties>
 	</rule>
 
