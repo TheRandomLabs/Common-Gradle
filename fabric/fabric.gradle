@@ -53,7 +53,9 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarnMappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loaderVersion}"
 
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabricAPIVersion}"
+	if (project.hasProperty("fabricAPIVersion")) {
+		modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabricAPIVersion}"
+	}
 
 	if (project.hasProperty("modMenuVersion")) {
 		modImplementation "io.github.prospector:modmenu:${project.modMenuVersion}"
