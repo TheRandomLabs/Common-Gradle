@@ -221,10 +221,12 @@ if (!gradle4) {
 		}
 	}
 
-	spotbugs {
-		excludeFilter = resources.text.fromUri(
-				"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/configs/spotbugs-exclude.xml"
-		).asFile()
+	if (useSpotBugs) {
+		spotbugs {
+			excludeFilter = resources.text.fromUri(
+					"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/configs/spotbugs-exclude.xml"
+			).asFile()
+		}
 	}
 
 	tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
