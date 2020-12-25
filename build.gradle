@@ -227,12 +227,12 @@ if (!gradle4) {
 					"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/configs/spotbugs-exclude.xml"
 			).asFile()
 		}
-	}
 
-	tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
-		reports {
-			xml.enabled false
-			html.enabled true
+		tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
+			reports {
+				xml.enabled false
+				html.enabled true
+			}
 		}
 	}
 }
