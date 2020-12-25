@@ -325,5 +325,10 @@ publishing {
 if (project.hasProperty("curseForgeAPIKey")) {
 	curseforge {
 		apiKey = project.curseForgeAPIKey
+
+		project {
+			changelogType = "markdown"
+			changelog = file("changelog.txt")
+		}
 	}
 }
