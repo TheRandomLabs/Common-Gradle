@@ -3,8 +3,8 @@ def includeClothConfig = !project.hasProperty("includeClothConfig") || project.i
 def testMod = project.findProperty("testMod")
 
 ext {
-	testing = false
 	useSpotBugs = false
+	testing = false
 	defaultCompileDependencies = false
 	includeLicense = false
 	buildSourcesJar = false
