@@ -10,8 +10,8 @@ A common Gradle buildscript for my projects.
 ext {
 	commonGradleBranch = "master"
 	javaVersion = 11
-	testing = true //true by default
 	useSpotBugs = false
+	testing = true //true by default
 	defaultCompileDependencies = false //Guava and SLF4J.
 	autoUpdateLicenses = false
 	mainClass = "com.test.Main"
