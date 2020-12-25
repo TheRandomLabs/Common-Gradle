@@ -328,7 +328,7 @@ if (project.hasProperty("curseForgeAPIKey")) {
 
 		project {
 			changelogType = "markdown"
-			changelog = file("changelog.txt")
+			changelog = file("changelog.md")
 		}
 	}
 }
