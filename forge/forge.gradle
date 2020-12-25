@@ -267,20 +267,18 @@ artifacts {
 	archives deobfJar
 }
 
-task signJar(type: SignJar, dependsOn: jar) {
-	onlyIf {
-		project.hasProperty("keyStore")
+if (project.hasProperty("keyStore")) {
+	task signJar(type: SignJar, dependsOn: jar) {
+		keyStore = project.keyStore
+		alias = project.keyStoreAlias
+		storePass = project.keyStorePass
+		keyPass = project.keyStoreKeyPass
+		inputFile = jar.archivePath
+		outputFile = jar.archivePath
 	}
 
-	keyStore = project.keyStore
-	alias = project.keyStoreAlias
-	storePass = project.keyStorePass
-	keyPass = project.keyStoreKeyPass
-	inputFile = jar.archivePath
-	outputFile = jar.archivePath
+	build.dependsOn signJar
 }
-
-build.dependsOn signJar
 
 jar {
 	manifest {
