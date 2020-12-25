@@ -4,6 +4,7 @@ def testMod = project.findProperty("testMod")
 
 ext {
 	testing = false
+	useSpotBugs = false
 	defaultCompileDependencies = false
 	includeLicense = false
 	buildSourcesJar = false
