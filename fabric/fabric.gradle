@@ -83,7 +83,7 @@ dependencies {
 
 	if (project.hasProperty("autoConfigTOMLVersion")) {
 		modImplementation "com.github.TheRandomLabs:AutoConfig-TOML:${project.autoConfigTOMLVersion}"
-		include "com.github.TheRandomLabs.AutoConfig-TOML:${project.autoConfigTOMLVersion}"
+		include "com.github.TheRandomLabs:AutoConfig-TOML:${project.autoConfigTOMLVersion}"
 	}
 
 	if (project.hasProperty("cottonClientCommandsVersion")) {
