@@ -277,7 +277,25 @@ if (project.hasProperty("keyStore")) {
 		outputFile = jar.archivePath
 	}
 
-	build.dependsOn signJar
+	task signDeobfJar(type: SignJar) {
+		keyStore = project.keyStore
+		alias = project.keyStoreAlias
+		storePass = project.keyStorePass
+		keyPass = project.keyStoreKeyPass
+		inputFile = deobfJar.archivePath
+		outputFile = deobfJar.archivePath
+	}
+
+	task signJavadocJar(type: SignJar, dependsOn: javadocJar) {
+		keyStore = project.keyStore
+		alias = project.keyStoreAlias
+		storePass = project.keyStorePass
+		keyPass = project.keyStoreKeyPass
+		inputFile = javadocJar.archivePath
+		outputFile = javadocJar.archivePath
+	}
+
+	build.dependsOn signJar, signDeobfJar, signJavadocJar
 }
 
 jar {
