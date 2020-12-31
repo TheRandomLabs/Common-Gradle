@@ -213,8 +213,7 @@ license {
 if (!gradle4) {
 	spotless {
 		format "misc", {
-			target ".gitignore", "*.java", "*.json", "*.gradle", "*.mcmeta", "*.md", "*.toml",
-					"*.xml"
+			target ".gitignore", "*.java", "*.json", "*.gradle", "*.mcmeta", "*.toml", "*.xml"
 			trimTrailingWhitespace()
 			endWithNewline()
 			indentWithTabs()
