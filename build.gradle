@@ -239,7 +239,6 @@ if (!gradle4) {
 tasks.withType(JavaCompile) {
 	options.encoding = "UTF-8"
 	options.compilerArgs << "-Xlint:all"
-	options.release = majorJavaVersionInt
 
 	if (!gradle4 && !name.toLowerCase().contains("test")) {
 		options.errorprone {
@@ -249,6 +248,10 @@ tasks.withType(JavaCompile) {
 			option("NullAway:AnnotatedPackages", project.group)
 			option("NullAway:ExcludedClassAnnotations", "org.spongepowered.asm.mixin.Mixin")
 		}
+	}
+
+	if (JavaVersion.current().isJava9Compatible()) {
+		options.release = majorJavaVersionInt
 	}
 }
 
