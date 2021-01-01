@@ -246,6 +246,7 @@ tasks.withType(JavaCompile) {
 			check("UnusedVariable", net.ltgt.gradle.errorprone.CheckSeverity.OFF)
 			check("NullAway", net.ltgt.gradle.errorprone.CheckSeverity.ERROR)
 			option("NullAway:AnnotatedPackages", project.group)
+			option("NullAway:ExcludedClassAnnotations", "org.spongepowered.asm.mixin.Mixin")
 		}
 	}
 
