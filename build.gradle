@@ -254,7 +254,7 @@ tasks.withType(JavaCompile) {
 		if (gradle4) {
 			options.release = majorJavaVersionInt
 		} else {
-			options.compilerArgs.addAll(["--release", majorJavaVersion)]
+			options.compilerArgs.addAll(["--release", majorJavaVersion])
 		}
 	}
 }
