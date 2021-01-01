@@ -251,7 +251,11 @@ tasks.withType(JavaCompile) {
 	}
 
 	if (JavaVersion.current().isJava9Compatible()) {
-		options.release = majorJavaVersionInt
+		if (gradle4) {
+			options.release = majorJavaVersionInt
+		} else {
+			options.compilerArgs.addAll(["--release", majorJavaVersion)]
+		}
 	}
 }
 
