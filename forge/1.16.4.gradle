@@ -1,5 +1,0 @@
-def branch = project.findProperty("commonGradleBranch") ?: "master"
-
-ext.minecraftVersion = "1.16.4"
-
-apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/forge/forge.gradle"
