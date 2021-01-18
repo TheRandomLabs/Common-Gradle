@@ -4,7 +4,6 @@ def branch = project.findProperty("commonGradleBranch") ?: "master"
 def useMixin = project.hasProperty("useMixin") && project.useMixin
 def testMod = project.findProperty("testMod")
 def disableShadow = project.hasProperty("disableShadow") && project.disableShadow
-def shadowAutoConfig = !project.hasProperty("shadowAutoConfig") || project.shadowAutoConfig
 def author = project.findProperty("author") ?: "TheRandomLabs"
 
 ext {
@@ -201,7 +200,7 @@ dependencies {
 			}
 		}
 
-		if (!disableShadow && shadowAutoConfig) {
+		if (!disableShadow) {
 			shadow("me.shedaniel:autoconfig1u-forge:${project.autoConfigVersion}") {
 				transitive = false
 			}
@@ -238,7 +237,7 @@ if (useMixin) {
 	}
 }
 
-if (!disableShadow && project.hasProperty("autoConfigVersion") && shadowAutoConfig) {
+if (!disableShadow && project.hasProperty("autoConfigVersion")) {
 	shadowJar {
 		relocate(
 				"me.shedaniel.autoconfig1u",
