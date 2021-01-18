@@ -3,6 +3,7 @@ import net.minecraftforge.gradle.common.task.SignJar
 def branch = project.findProperty("commonGradleBranch") ?: "master"
 def useMixin = project.hasProperty("useMixin") && project.useMixin
 def testMod = project.findProperty("testMod")
+def disableShadow = project.hasProperty("disableShadow") && project.disableShadow
 def shadowAutoConfig = !project.hasProperty("shadowAutoConfig") || project.shadowAutoConfig
 def author = project.findProperty("author") ?: "TheRandomLabs"
 
@@ -50,7 +51,11 @@ buildscript {
 
 apply plugin: "eclipse"
 apply plugin: "net.minecraftforge.gradle"
-apply plugin: "com.github.johnrengelman.shadow"
+
+if (!disableShadow) {
+	apply plugin: "com.github.johnrengelman.shadow"
+}
+
 apply plugin: "com.matthewprenger.cursegradle"
 apply plugin: "com.modrinth.minotaur"
 
@@ -196,7 +201,7 @@ dependencies {
 			}
 		}
 
-		if (shadowAutoConfig) {
+		if (!disableShadow && shadowAutoConfig) {
 			shadow("me.shedaniel:autoconfig1u-forge:${project.autoConfigVersion}") {
 				transitive = false
 			}
@@ -206,7 +211,10 @@ dependencies {
 	if (project.hasProperty("autoConfigTOMLVersion")) {
 		compile "com.github.TheRandomLabs:AutoConfig-TOML:${project.autoConfigTOMLVersion}"
 		nonModDependency "com.github.TheRandomLabs:AutoConfig-TOML:${project.autoConfigTOMLVersion}"
-		shadow "com.github.TheRandomLabs:AutoConfig-TOML:${project.autoConfigTOMLVersion}"
+
+		if (!disableShadow) {
+			shadow "com.github.TheRandomLabs:AutoConfig-TOML:${project.autoConfigTOMLVersion}"
+		}
 	}
 }
 
@@ -230,7 +238,7 @@ if (useMixin) {
 	}
 }
 
-if (project.hasProperty("autoConfigVersion") && shadowAutoConfig) {
+if (!disableShadow && project.hasProperty("autoConfigVersion") && shadowAutoConfig) {
 	shadowJar {
 		relocate(
 				"me.shedaniel.autoconfig1u",
@@ -242,7 +250,7 @@ if (project.hasProperty("autoConfigVersion") && shadowAutoConfig) {
 	}
 }
 
-if (project.hasProperty("autoConfigTOMLVersion")) {
+if (!disableShadow && project.hasProperty("autoConfigTOMLVersion")) {
 	shadowJar {
 		relocate(
 				"com.therandomlabs.autoconfigtoml",
@@ -254,8 +262,10 @@ if (project.hasProperty("autoConfigTOMLVersion")) {
 	}
 }
 
-reobf {
-	shadowJar {}
+if (!disableShadow) {
+	reobf {
+		shadowJar {}
+	}
 }
 
 task deobfJar(type: Jar, dependsOn: jar) {
