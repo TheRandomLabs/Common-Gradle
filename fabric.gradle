@@ -52,7 +52,7 @@ dependencies {
 	}
 
 	if (project.hasProperty("modMenuVersion")) {
-		modRuntime "io.github.prospector:modmenu:${project.modMenuVersion}"
+		modImplementation "io.github.prospector:modmenu:${project.modMenuVersion}"
 	}
 
 	if (project.hasProperty("clothConfigVersion")) {
