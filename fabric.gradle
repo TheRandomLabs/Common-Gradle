@@ -41,11 +41,9 @@ repositories {
 		}
 	}
 
-	if (project.hasProperty("cottonClientCommandsVersion")) {
-		maven {
-			name "CottonMC"
-			url "https://server.bbkr.space/artifactory/libs-release"
-		}
+	maven {
+		name "CottonMC"
+		url "https://server.bbkr.space/artifactory/libs-release"
 	}
 }
 
