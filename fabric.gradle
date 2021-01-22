@@ -40,11 +40,6 @@ repositories {
 			url "https://jitpack.io"
 		}
 	}
-
-	maven {
-		name "CottonMC"
-		url "https://server.bbkr.space/artifactory/libs-release"
-	}
 }
 
 dependencies {
@@ -57,7 +52,7 @@ dependencies {
 	}
 
 	if (project.hasProperty("modMenuVersion")) {
-		modImplementation "io.github.prospector:modmenu:${project.modMenuVersion}"
+		modRuntime "io.github.prospector:modmenu:${project.modMenuVersion}"
 	}
 
 	if (project.hasProperty("clothConfigVersion")) {
@@ -83,10 +78,6 @@ dependencies {
 	if (project.hasProperty("autoConfigTOMLVersion")) {
 		modImplementation "com.github.TheRandomLabs:AutoConfig-TOML:${project.autoConfigTOMLVersion}"
 		include "com.github.TheRandomLabs:AutoConfig-TOML:${project.autoConfigTOMLVersion}"
-	}
-
-	if (project.hasProperty("cottonClientCommandsVersion")) {
-		modImplementation "io.github.cottonmc:cotton-client-commands:${project.cottonClientCommandsVersion}"
 	}
 
 	if (testMod) {
