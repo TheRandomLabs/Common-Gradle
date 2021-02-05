@@ -246,7 +246,7 @@
 		</module>
 		<module name="MissingJavadocMethod">
 			<property name="scope" value="protected"/>
-			<property name="allowedAnnotations" value="BeforeAll,Test,Overwrite,Inject,ModifyArg,ModifyVariable,ModifyConstant,Redirect,Shadow,Invoker,Accessor,SubscribeEvent,Option"/>
+			<property name="allowedAnnotations" value="BeforeAll,Test,Overwrite,Inject,ModifyArg,ModifyVariable,ModifyConstant,Redirect,Shadow,Invoker,Accessor,SubscribeEvent"/>
 		</module>
 		<module name="SingleLineJavadoc">
 			<property name="ignoreInlineTags" value="false"/>
