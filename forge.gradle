@@ -42,7 +42,7 @@ buildscript {
 				version: "3.+", changing: true
 		classpath "com.github.jengelman.gradle.plugins:shadow:4.0.4"
 		classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
-		classpath "gradle.plugin.com.modrinth.minotaur:Minotaur:1.1.0"
+		classpath "gradle.plugin.com.modrinth.minotaur:Minotaur:1.2.0"
 		//If useMixin:
 		//classpath "org.spongepowered:mixingradle:0.7-SNAPSHOT"
 	}
