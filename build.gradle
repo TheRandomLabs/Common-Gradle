@@ -31,7 +31,7 @@ buildscript {
 		gradlePluginPortal()
 
 		dependencies {
-			classpath "gradle.plugin.net.minecrell:licenser:0.4.1"
+			classpath "gradle.plugin.org.cadixdev.gradle:licenser:0.5.1"
 
 			//I'm not sure why I can't just use gradle4.
 			if (GradleVersion.current() >= GradleVersion.version("5.0")) {
@@ -52,7 +52,7 @@ apply plugin: "idea"
 apply plugin: "maven-publish"
 apply plugin: "checkstyle"
 apply plugin: "pmd"
-apply plugin: net.minecrell.gradle.licenser.Licenser
+apply plugin: org.cadixdev.gradle.licenser.Licenser
 
 if (!gradle4) {
 	apply plugin: com.diffplug.gradle.spotless.SpotlessPlugin
