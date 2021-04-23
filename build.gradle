@@ -177,7 +177,7 @@ gradle.afterProject {
 	def url = new URL(
 			"https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/.editorconfig"
 	)
-	def file = new File(".editorconfig")
+	def file = file(".editorconfig")
 
 	url.withInputStream { input ->
 		file.withOutputStream {

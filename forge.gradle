@@ -12,7 +12,7 @@ ext {
 	//For some reason, ForgeGradle doesn't like it when this is true.
 	autoUpdateLicenses = false
 	registerDefaultMavenPublication = false
-	autoConfigTOMLClassesDir = new File("build/autoconfig-toml")
+	autoConfigTOMLClassesDir = file("build/autoconfig-toml")
 }
 
 apply from: "https://raw.githubusercontent.com/TheRandomLabs/Common-Gradle/$branch/build.gradle"
