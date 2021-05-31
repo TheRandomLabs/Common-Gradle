@@ -117,7 +117,7 @@ dependencies {
 	testCompileOnly "org.checkerframework:checker-qual:${project.checkerQualVersion}"
 
 	//Static code analysis.
-	checkstyle "com.puppycrawl.tools:checkstyle:8.41.1"
+	checkstyle "com.puppycrawl.tools:checkstyle:8.43"
 	checkstyle "com.github.sevntu-checkstyle:sevntu-checks:1.38.0"
 
 	if (!gradle4) {
