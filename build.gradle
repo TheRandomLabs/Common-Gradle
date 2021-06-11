@@ -35,7 +35,7 @@ buildscript {
 
 			//I'm not sure why I can't just use gradle4.
 			if (GradleVersion.current() >= GradleVersion.version("5.0")) {
-				classpath "com.diffplug.spotless:spotless-plugin-gradle:5.12.1"
+				classpath "com.diffplug.spotless:spotless-plugin-gradle:5.13.0"
 
 				if (!project.hasProperty("useSpotBugs") || project.useSpotBugs) {
 					classpath "gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.7.0"
