@@ -118,7 +118,7 @@ dependencies {
 
 	//Static code analysis.
 	checkstyle "com.puppycrawl.tools:checkstyle:8.41.1"
-	checkstyle "com.github.sevntu-checkstyle:sevntu-checks:1.38.0"
+	checkstyle "com.github.sevntu-checkstyle:sevntu-checks:1.40.0"
 
 	if (!gradle4) {
 		if (useSpotBugs) {
